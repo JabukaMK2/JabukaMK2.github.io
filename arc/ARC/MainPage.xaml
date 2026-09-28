@@ -14,7 +14,8 @@
                 <Setter Property="BorderThickness" Value="1.5" />
                 <Setter Property="Padding" Value="16,12" />
                 <Setter Property="Margin" Value="0,0,0,12" />
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Top" />
             </Style>
         </ResourceDictionary>
     </Page.Resources>
