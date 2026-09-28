@@ -1,0 +1,53 @@
+{
+  // Use IntelliSense to find out which attributes exist for C# debugging
+  // Use hover for the description of the existing attributes
+  // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ARC (Desktop)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-desktop-ARC",
+      "program": "${workspaceFolder}/ARC/bin/Debug/net10.0-desktop/ARC.dll",
+      "args": [],
+      "launchSettingsProfile": "ARC (Desktop)",
+      "env": {
+        "DOTNET_MODIFIABLE_ASSEMBLIES": "debug"
+      },
+      "cwd": "${workspaceFolder}/ARC",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "DataIQ (Desktop)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-desktop-DataIQ",
+      "program": "${workspaceFolder}/DataIQ/bin/Debug/net10.0-desktop/DataIQ.dll",
+      "args": [],
+      "launchSettingsProfile": "DataIQ (Desktop)",
+      "env": {
+        "DOTNET_MODIFIABLE_ASSEMBLIES": "debug"
+      },
+      "cwd": "${workspaceFolder}/DataIQ",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "RepairIQ (Desktop)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-desktop-RepairIQ",
+      "program": "${workspaceFolder}/RepairIQ/bin/Debug/net10.0-desktop/RepairIQ.dll",
+      "args": [],
+      "launchSettingsProfile": "RepairIQ (Desktop)",
+      "env": {
+        "DOTNET_MODIFIABLE_ASSEMBLIES": "debug"
+      },
+      "cwd": "${workspaceFolder}/RepairIQ",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    }
+  ]
+}

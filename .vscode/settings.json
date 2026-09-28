@@ -1,0 +1,5 @@
+{
+    "editor.fontSize": 16,
+    "dotnet.defaultSolution": "arc/ARC.sln",
+    "unoplatform.ignoreCheck": false
+}
