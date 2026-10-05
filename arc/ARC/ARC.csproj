@@ -30,4 +30,9 @@
     <ProjectReference Include="..\ArcShared\ArcShared.csproj" />
   </ItemGroup>
 
+  <!-- Revo Uninstaller Portable, launched from next to ARC.exe by the Uninstaller button -->
+  <ItemGroup>
+    <None Update="RevoUninstaller\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

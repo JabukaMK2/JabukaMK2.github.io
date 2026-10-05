@@ -1,4 +1,5 @@
 using ArcShared;
+using System.Diagnostics;
 
 namespace RepairIQ;
 
@@ -16,7 +17,23 @@ public sealed partial class MainPage : Page
 
     private void RunScanButton_Click(object sender, RoutedEventArgs e)
     {
-        // Placeholder: hardware tests, AV scan, and corruption checks land here.
-        LogText.Text = "Scan not yet implemented.";
+        string scriptPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Services", "main.cmd");
+        if (!System.IO.File.Exists(scriptPath))
+        {
+            LogText.Text = $"Could not find {scriptPath}.";
+            return;
+        }
+
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = scriptPath,
+                UseShellExecute = true,
+                WorkingDirectory = System.IO.Path.GetDirectoryName(scriptPath)
+            }
+        };
+        process.Start();
+        LogText.Text = "Running scan...";
     }
 }
