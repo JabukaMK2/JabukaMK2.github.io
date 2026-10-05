@@ -45,6 +45,6 @@ The same `net10.0-desktop` build runs on Windows too (Skia renderer), and is als
 
 - RepairIQ's actual scan logic (hardware tests, AV, corruption checks)
 - DataIQ's actual transfer/imaging features (currently just lists files)
-- The Revo Uninstaller Portable launch path (`ARC/MainPage.xaml.cs` assumes `Uninstaller/RevoUPor.exe` next to `ARC`'s own output)
+- The Revo Uninstaller Portable launch path (`ARC/MainPage.xaml.cs` launches `RevoUninstaller/RevoUPort.exe` next to `ARC`'s own output)
 - BitLocker prepare/decrypt flow
 - ARC-PE (WinPE) boot integration

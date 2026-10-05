@@ -31,7 +31,7 @@ public sealed partial class MainPage : Page
         LaunchTool("DataIQ.exe");
 
     private void UninstallerButton_Click(object sender, RoutedEventArgs e) =>
-        LaunchTool(Path.Combine("Uninstaller", "RevoUPor.exe"));
+        LaunchTool(Path.Combine("RevoUninstaller", "RevoUPort.exe"));
 
     private void LaunchTool(string relativeExePath)
     {
@@ -44,7 +44,11 @@ public sealed partial class MainPage : Page
         }
 
         SessionStore.Save(_session);
-        Process.Start(new ProcessStartInfo(exePath) { UseShellExecute = true });
+        Process.Start(new ProcessStartInfo(exePath)
+        {
+            UseShellExecute = true,
+            WorkingDirectory = Path.GetDirectoryName(exePath)
+        });
         StatusText.Text = string.Empty;
     }
 }

@@ -30,4 +30,9 @@
     <ProjectReference Include="..\ArcShared\ArcShared.csproj" />
   </ItemGroup>
 
+  <!-- Repair scripts and bundled tools (e.g. Services\tools\prime95) run from next to RepairIQ.exe -->
+  <ItemGroup>
+    <None Update="Services\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
