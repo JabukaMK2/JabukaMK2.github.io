@@ -4,3 +4,4 @@ obj/
 session.json
 RepairIQ/Services/tools/
 ARC/RevoUninstaller/
+dist/
