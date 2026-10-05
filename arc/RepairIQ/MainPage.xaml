@@ -15,12 +15,25 @@
         <TextBlock Grid.Row="1" x:Name="TargetText" Text="Target: —"
                    Foreground="Gray" Margin="0,0,0,24" />
 
-        <StackPanel Grid.Row="2">
-            <Button x:Name="RunScanButton" Content="Run Scan" HorizontalAlignment="Left"
+        <Grid Grid.Row="2" RowSpacing="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" x:Name="RunScanButton" Content="Run Scan" HorizontalAlignment="Left"
                     Padding="16,10" Background="#1A1A1A" Foreground="White"
                     BorderBrush="#5E44C7" BorderThickness="1.5" Click="RunScanButton_Click" />
-            <TextBlock x:Name="LogText" Margin="0,16,0,0" Foreground="LightGray"
+            <TextBlock Grid.Row="1" x:Name="LogText" Foreground="LightGray"
                        TextWrapping="Wrap" />
-        </StackPanel>
+            <ScrollViewer Grid.Row="2" x:Name="OutputScroll" Background="#111111"
+                          BorderBrush="#2A2A2A" BorderThickness="1"
+                          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TextBox x:Name="OutputBox" IsReadOnly="True" AcceptsReturn="True"
+                         TextWrapping="NoWrap" FontFamily="Consolas" FontSize="13"
+                         Foreground="#D0D0D0" Background="Transparent" BorderThickness="0"
+                         PlaceholderText="Command output will appear here." />
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>
