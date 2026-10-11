@@ -17,7 +17,7 @@ public sealed partial class MainPage : Page
 
     private async void RunScanButton_Click(object sender, RoutedEventArgs e)
     {
-        string scriptPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Services", "main.cmd");
+        string scriptPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Services","commands", "main.cmd");
         if (!System.IO.File.Exists(scriptPath))
         {
             LogText.Text = $"Could not find {scriptPath}.";
