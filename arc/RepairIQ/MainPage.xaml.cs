@@ -1,8 +1,10 @@
 using ArcShared;
 using System.Diagnostics;
+using RepairIQ.Data;
 
 namespace RepairIQ;
 
+// Main page for the RepairIQ application. Handles UI interactions and runs the main scan script.
 public sealed partial class MainPage : Page
 {
     private readonly SessionContext _session;
@@ -13,8 +15,11 @@ public sealed partial class MainPage : Page
 
         _session = SessionStore.Load();
         TargetText.Text = $"Target: {_session.DriveLetter} ({_session.Hostname}, {_session.Mode})";
+
+        ScanStore.CreateTables();
     }
 
+    // Event handler for the "Run Scan" button click. Executes the main scan script and updates the UI with the results.
     private async void RunScanButton_Click(object sender, RoutedEventArgs e)
     {
         string scriptPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Services","commands", "main.cmd");
@@ -47,6 +52,7 @@ public sealed partial class MainPage : Page
         RunScanButton.IsEnabled = false;
         LogText.Text = "Running scan...";
 
+        // Start the scan process and handle its output asynchronously.
         try
         {
             process.Start();
@@ -67,7 +73,8 @@ public sealed partial class MainPage : Page
             RunScanButton.IsEnabled = true;
         }
     }
-
+    
+    // Appends a line of output from the scan process to the OutputBox in the UI.
     private void AppendOutput(string? line)
     {
         if (line is null)
