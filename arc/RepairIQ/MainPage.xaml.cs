@@ -16,10 +16,13 @@ public sealed partial class MainPage : Page
         _session = SessionStore.Load();
         TargetText.Text = $"Target: {_session.DriveLetter} ({_session.Hostname}, {_session.Mode})";
 
+        // #TODO: An exception here (e.g. read-only drive) crashes the page. Report it to the tech
+        //        the way RunScanButton_Click does with LogText?
         ScanStore.CreateTables();
     }
 
     // Event handler for the "Run Scan" button click. Executes the main scan script and updates the UI with the results.
+    // #TODO: Record the scan in ScanStore: UpsertDevice -> AddScan (keep the returned ID) -> step results -> UpdateScan.
     private async void RunScanButton_Click(object sender, RoutedEventArgs e)
     {
         string scriptPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Services","commands", "main.cmd");
