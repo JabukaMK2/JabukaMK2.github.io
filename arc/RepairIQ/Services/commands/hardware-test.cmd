@@ -20,11 +20,12 @@ echo --------------------------------------------
 :: Step 1: Check disk health.
 :: Exit codes for disk health check:
 :: 0 - All disks are healthy.
+:: 1 - PowerShell not found.
 :: 2 - One or more disks are not healthy.
 :: 3 - Disk health check failed due to an error.
 echo Checking disk health...
 where powershell >nul 2>&1 || (echo PowerShell not found. & exit /b 1)
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$d = @(Get-PhysicalDisk | Where-Object BusType -ne 'USB'); if ($d.Count -eq 0) { exit 3 }; $d | Format-Table -AutoSize FriendlyName,MediaType,BusType,HealthStatus,OperationalStatus | Out-String | Write-Host; if ($d | Where-Object HealthStatus -ne 'Healthy') { exit 2 }; exit 0"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$d = @(Get-PhysicalDisk | Where-Object BusType -ne 'USB'); if ($d.Count -eq 0) { exit 1 }; $d | Format-Table -AutoSize FriendlyName,MediaType,BusType,HealthStatus,OperationalStatus | Out-String | Write-Host; if ($d | Where-Object HealthStatus -ne 'Healthy') { exit 2 }; exit 0"
 set "RC=%errorlevel%"
 if "%RC%"=="2" (echo One or more disks are not healthy. & exit /b 2)
 if not "%RC%"=="0" (echo Disk health check failed with error code %RC%. & exit /b 3)
@@ -34,10 +35,12 @@ echo.
 :: Step 2: Run the hardware stress test using Prime95.
 :: Exit codes for the stress test:
 :: 0 - Stress test passed.
-:: 2 - Stress test found errors.
-:: 3 - Stress test failed due to an unexpected error.
-if %MIN% leq 0 (echo Stress test skipped. & exit /b 0)
-if not exist "%P95DIR%\prime95.exe" (echo Prime95 not found in %P95DIR%. & exit /b 1)
+:: 4 - Stress test found errors.
+:: 5 - Stress test failed due to an unexpected error.
+:: 6 - Stress test was skipped.
+:: 7 - Stress test not found.
+if %MIN% leq 0 (echo Stress test skipped. & exit /b 6)
+if not exist "%P95DIR%\prime95.exe" (echo Prime95 not found in %P95DIR%. & exit /b 7)
 
 :: Configure Prime95 settings for the stress test.
 findstr /x "StressTester=1" "%P95DIR%\prime.txt" >nul 2>&1 || >>"%P95DIR%\prime.txt" echo StressTester=1
@@ -54,26 +57,19 @@ set /a LEFT=MIN
 echo [%time:~0,8%] Stress test running - %LEFT% min left
 rem ping instead of timeout: timeout fails when stdin is redirected
 ping -n 61 127.0.0.1 >nul
-tasklist /fi "imagename eq prime95.exe" | find /i "prime95.exe" >nul || (echo Prime95 exited unexpectedly. & exit /b 3)
+tasklist /fi "imagename eq prime95.exe" | find /i "prime95.exe" >nul || (echo Prime95 exited unexpectedly. & exit /b 5)
 findstr /i /c:"FATAL ERROR" /c:"Hardware failure" /c:"TORTURE TEST FAILED" "%P95DIR%\results.txt" >nul 2>&1 && goto failed
 set /a LEFT-=1
 if %LEFT% gtr 0 goto wait
 
 :: Step 3: Conclude the stress test and report results.
-:: Exit codes for concluding the stress test:
-:: 0 - Stress test passed.
-:: 2 - Stress test found errors.
-:: 3 - Stress test failed due to an unexpected error.
 taskkill /im prime95.exe /f >nul 2>&1
 echo Stress test passed.
 exit /b 0
 
 :: Step 4: Handle stress test failure.
-:: Exit codes for handling stress test failure:
-:: 2 - Stress test found errors.
-:: 3 - Stress test failed due to an unexpected error.
 :failed
 taskkill /im prime95.exe /f >nul 2>&1
 echo Stress test found errors:
 findstr /i /c:"FATAL ERROR" /c:"Hardware failure" /c:"TORTURE TEST FAILED" "%P95DIR%\results.txt"
-exit /b 2
+exit /b 4

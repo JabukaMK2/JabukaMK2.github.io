@@ -14,6 +14,13 @@ public class SessionContext
 
     public string Hostname { get; set; } = Environment.MachineName;
 
+    public string SerialNumber { get; set; } = "Unknown";
+
+    public string BitlockerStatus { get; set; } = "Unknown";
+
+    // Work order associated with this session. If not set, defaults to 0 and if set, must be greater than 0.
+    public long WorkOrder { get; set; } = 0;
+
     /// <summary>Free-form extra fields tools can stash without a schema change.</summary>
     public Dictionary<string, string> Extra { get; set; } = new();
 }

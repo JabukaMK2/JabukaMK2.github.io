@@ -4,6 +4,7 @@
 :: 1 - Windows Defender not found.
 :: 2 - Threats found that need manual action.
 :: 3 - Scan failed with an error.
+:: 4 - Virus scan skipped.
 @echo off
 setlocal
 set "MP=%ProgramFiles%\Windows Defender\MpCmdRun.exe"
@@ -14,6 +15,7 @@ echo Step 2: Antivirus Scan Script
 echo --------------------------------------------
 
 :: Step 1: Verify that Windows Defender is available.
+if "%TYPE%"=="skip" (echo Virus scan skipped. & exit /b 4)
 if not exist "%MP%" (echo Windows Defender not found. & exit /b 1)
 
 echo Updating virus definitions...

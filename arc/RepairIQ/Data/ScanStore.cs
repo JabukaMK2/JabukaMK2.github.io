@@ -27,31 +27,22 @@ public static class ScanStore
     {
         using var connection = OpenConnection();
 
-        // Create Devices table
-        using var createDevicesTableCommand = connection.CreateCommand();
-        createDevicesTableCommand.CommandText = 
-        @"
-        CREATE TABLE IF NOT EXISTS Devices (
-            SerialNumber TEXT PRIMARY KEY,
-            BitlockerStatus TEXT CHECK(BitlockerStatus IN ('Enabled', 'Disabled', 'Unknown')) NOT NULL,
-            CPU TEXT,
-            RAM TEXT,
-            Storage TEXT,
-            OS TEXT
-        ) STRICT;";
-        createDevicesTableCommand.ExecuteNonQuery();
-
         // Create Scans table
         using var createTableCommand = connection.CreateCommand();
         createTableCommand.CommandText = 
         @"
         CREATE TABLE IF NOT EXISTS Scans (
             ScanID INTEGER PRIMARY KEY,
+            WorkOrder INTEGER NOT NULL CHECK(WorkOrder > 0),
             SerialNumber TEXT NOT NULL,
+            BitlockerStatus TEXT DEFAULT 'Unknown' CHECK(BitlockerStatus IN ('Enabled', 'Disabled', 'Unknown')) NOT NULL,
+            CPU TEXT,
+            RAM TEXT,
+            Storage TEXT,
+            OS TEXT,
             ScanStart TEXT NOT NULL,
-            ScanEnd TEXT,
-            FOREIGN KEY (SerialNumber) REFERENCES Devices(SerialNumber)
-        );";
+            ScanEnd TEXT
+        ) STRICT;";
         createTableCommand.ExecuteNonQuery();
 
         // Create Hardware table
@@ -61,11 +52,9 @@ public static class ScanStore
         CREATE TABLE IF NOT EXISTS Hardware (
             HardwareID INTEGER PRIMARY KEY,
             ScanID INTEGER NOT NULL UNIQUE,
-            HardwareStart TEXT NOT NULL,
-            HardwareEnd TEXT,
-            CPUStatus TEXT DEFAULT 'Pending' CHECK(CPUStatus IN ('Pass', 'Fail', 'Unknown', 'Pending')) NOT NULL,
-            RAMStatus TEXT DEFAULT 'Pending' CHECK(RAMStatus IN ('Pass', 'Fail', 'Unknown', 'Pending')) NOT NULL,
-            StorageStatus TEXT DEFAULT 'Pending' CHECK(StorageStatus IN ('Pass', 'Fail', 'Unknown', 'Pending')) NOT NULL,
+            HardwareEnd TEXT NOT NULL,
+            Prime95Status TEXT DEFAULT 'Unknown' CHECK(Prime95Status IN ('Pass', 'Fail', 'Unknown', 'Skipped')) NOT NULL,
+            StorageStatus TEXT DEFAULT 'Unknown' CHECK(StorageStatus IN ('Pass', 'Fail', 'Unknown', 'Skipped')) NOT NULL,
             Prime95Path TEXT,
             FOREIGN KEY (ScanID) REFERENCES Scans(ScanID)
         ) STRICT;";
@@ -78,9 +67,8 @@ public static class ScanStore
         CREATE TABLE IF NOT EXISTS Software (
             SoftwareID INTEGER PRIMARY KEY,
             ScanID INTEGER NOT NULL UNIQUE,
-            SoftwareStart TEXT NOT NULL,
-            SoftwareEnd TEXT,
-            OSStatus TEXT DEFAULT 'Pending' CHECK(OSStatus IN ('Repaired', 'Incomplete', 'Clean', 'Unknown', 'Pending')) NOT NULL,
+            SoftwareEnd TEXT NOT NULL,
+            OSFailPoint TEXT DEFAULT 'Unknown' CHECK(OSFailPoint IN ('Temp', 'DISM', 'SFC', 'Chkdsk','Pass', 'Unknown')) NOT NULL,
             FOREIGN KEY (ScanID) REFERENCES Scans(ScanID)
         ) STRICT;";
         createSoftwareTableCommand.ExecuteNonQuery();
@@ -92,27 +80,27 @@ public static class ScanStore
         CREATE TABLE IF NOT EXISTS Antivirus (
             AntivirusID INTEGER PRIMARY KEY,
             ScanID INTEGER NOT NULL UNIQUE,
-            AntivirusStart TEXT NOT NULL,
-            AntivirusEnd TEXT,
-            VirusCount INTEGER CHECK(VirusCount >= 0),
-            VirusStatus TEXT DEFAULT 'Pending' CHECK(VirusStatus IN ('Complete', 'Incomplete', 'Unknown', 'Pending')) NOT NULL,
+            AntivirusEnd TEXT NOT NULL,
+            VirusStatus TEXT DEFAULT 'Unknown' CHECK(VirusStatus IN ('Pass', 'Attention', 'Unknown', 'Skipped')) NOT NULL,
             FOREIGN KEY (ScanID) REFERENCES Scans(ScanID)
         ) STRICT;";
         createAntivirusTableCommand.ExecuteNonQuery();
     }
 
     // Inserts a new scan record into the Scans table.
-    public static long AddScan(string serialNumber, string scanStart)
+    public static long AddScan(string serialNumber, string scanStart, string bitlockerStatus, long workOrder)
     {
         using var connection = OpenConnection();
         using var addScanCommand = connection.CreateCommand();
         addScanCommand.CommandText = 
         @"
-        INSERT INTO Scans (SerialNumber, ScanStart)
-        VALUES ($serialNumber, $scanStart);
+        INSERT INTO Scans (SerialNumber, ScanStart, BitlockerStatus, WorkOrder)
+        VALUES ($serialNumber, $scanStart, $bitlockerStatus, $workOrder);
         SELECT last_insert_rowid();";
         addScanCommand.Parameters.AddWithValue("$serialNumber", serialNumber);
         addScanCommand.Parameters.AddWithValue("$scanStart", scanStart);
+        addScanCommand.Parameters.AddWithValue("$bitlockerStatus", bitlockerStatus);
+        addScanCommand.Parameters.AddWithValue("$workOrder", workOrder);
 
         // Validate the result of the insert operation.
         var result = addScanCommand.ExecuteScalar() ?? throw new InvalidOperationException("Failed to insert a new scan record.");
@@ -120,7 +108,7 @@ public static class ScanStore
     }
 
     // Updates an existing scan record in the Scans table.
-    public static void UpdateScan(long scanId, string scanEnd)
+    public static void UpdateScan(long scanID, string scanEnd)
     {
         using var connection = OpenConnection();
         using var updateScanCommand = connection.CreateCommand();
@@ -128,9 +116,9 @@ public static class ScanStore
         @"
         UPDATE Scans
         SET ScanEnd = $scanEnd
-        WHERE ScanID = $scanId;";
+        WHERE ScanID = $scanID;";
         updateScanCommand.Parameters.AddWithValue("$scanEnd", scanEnd);
-        updateScanCommand.Parameters.AddWithValue("$scanId", scanId);
+        updateScanCommand.Parameters.AddWithValue("$scanID", scanID);
         if (updateScanCommand.ExecuteNonQuery() == 0)
         {
             throw new InvalidOperationException("Failed to update the scan record.");
@@ -140,15 +128,15 @@ public static class ScanStore
     // Deletes a scan record from the Scans table.
     // #TODO: Fails with "FOREIGN KEY constraint failed" when Hardware/Software/Antivirus rows
     //        reference this scan. Decide: delete the child rows first, or ON DELETE CASCADE?
-    public static void DeleteScan(long scanId)
+    public static void DeleteScan(long scanID)
     {
         using var connection = OpenConnection();
         using var deleteScanCommand = connection.CreateCommand();
         deleteScanCommand.CommandText =
         @"
         DELETE FROM Scans
-        WHERE ScanID = $scanId;";
-        deleteScanCommand.Parameters.AddWithValue("$scanId", scanId);
+        WHERE ScanID = $scanID;";
+        deleteScanCommand.Parameters.AddWithValue("$scanID", scanID);
         if (deleteScanCommand.ExecuteNonQuery() == 0)
         {
             throw new InvalidOperationException("Failed to delete the scan record.");
@@ -160,46 +148,21 @@ public static class ScanStore
     // #TODO: The returned reader is already closed, because `using` disposes the connection on return
     //        ("Invalid attempt to call ... when reader is closed"). Return a Scan model instead
     //        (compare SessionStore.Load() returning SessionContext).
-    public static SqliteDataReader GetScan(long scanId)
+    public static SqliteDataReader GetScan(long scanID)
     {
         using var connection = OpenConnection();
         using var getScanCommand = connection.CreateCommand();
         getScanCommand.CommandText =
         @"
         SELECT * FROM Scans
-        WHERE ScanID = $scanId;";
-        getScanCommand.Parameters.AddWithValue("$scanId", scanId);
+        WHERE ScanID = $scanID;";
+        getScanCommand.Parameters.AddWithValue("$scanID", scanID);
         var reader = getScanCommand.ExecuteReader();
         if (!reader.Read())
         {
             throw new InvalidOperationException("Scan record not found.");
         }
         return reader;
-    }
-
-    // Checks if a device exists and updates it otherwise inserts a new device record.
-    // #TODO: Currently causes an error if any of the optional parameters are null.
-    //        ("Value must be set": C# null is not SQL NULL. Research DBNull.Value.)
-    // #TODO: The OS column is not included. Intentional?
-    // #TODO: Decide whether a failed poll (null) should overwrite the last known value (COALESCE?).
-    public static void UpsertDevice(string serialNumber, string bitlockerStatus, string? cpu, string? ram, string? storage)
-    {
-        using var connection = OpenConnection();
-        using var upsertDeviceCommand = connection.CreateCommand();
-        upsertDeviceCommand.CommandText =
-        @"
-        INSERT INTO Devices (SerialNumber, BitlockerStatus, CPU, RAM, Storage)
-        VALUES ($serialNumber, $bitlockerStatus, $cpu, $ram, $storage)
-        ON CONFLICT(SerialNumber) DO UPDATE SET BitlockerStatus = $bitlockerStatus, CPU = $cpu, RAM = $ram, Storage = $storage;";
-        upsertDeviceCommand.Parameters.AddWithValue("$serialNumber", serialNumber);
-        upsertDeviceCommand.Parameters.AddWithValue("$bitlockerStatus", bitlockerStatus);
-        upsertDeviceCommand.Parameters.AddWithValue("$cpu", cpu);
-        upsertDeviceCommand.Parameters.AddWithValue("$ram", ram);
-        upsertDeviceCommand.Parameters.AddWithValue("$storage", storage);
-        if (upsertDeviceCommand.ExecuteNonQuery() == 0)
-        {
-            throw new InvalidOperationException("Failed to upsert the device record.");
-        }
     }
 
     // #TODO: Methods to insert/update step results (Hardware, Software, Antivirus), including Prime95Path.
