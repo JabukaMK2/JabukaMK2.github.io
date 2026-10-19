@@ -3,6 +3,11 @@ using System.IO;
 
 namespace RepairIQ.Data;
 
+// TODO: No automated tests. SQL lives in strings the compiler can't check (e.g. wrong table or
+//       column names, CHECK values with the wrong case). Add a test project that calls each method
+//       against a throwaway database. The full flow has also not been run end to end on Windows yet.
+// TODO: The timestamp format "yyyy-MM-dd HH:mm:ss" is repeated at every call site in MainPage.
+//       Define it once so the columns can't drift out of sortable format.
 public static class ScanStore
 {
     // Path to the ScanStore database file.
@@ -125,46 +130,50 @@ public static class ScanStore
         }
     }
 
-    // Deletes a scan record from the Scans table.
-    // #TODO: Fails with "FOREIGN KEY constraint failed" when Hardware/Software/Antivirus rows
-    //        reference this scan. Decide: delete the child rows first, or ON DELETE CASCADE?
-    public static void DeleteScan(long scanID)
+    // Adds a hardware scan record to the Hardware table.
+    public static void AddHardwareScan(long scanId, string hardwareEnd, string prime95Status, string storageStatus, string? prime95Path)
     {
         using var connection = OpenConnection();
-        using var deleteScanCommand = connection.CreateCommand();
-        deleteScanCommand.CommandText =
+        using var addHardwareScanCommand = connection.CreateCommand();
+        addHardwareScanCommand.CommandText =
         @"
-        DELETE FROM Scans
-        WHERE ScanID = $scanID;";
-        deleteScanCommand.Parameters.AddWithValue("$scanID", scanID);
-        if (deleteScanCommand.ExecuteNonQuery() == 0)
-        {
-            throw new InvalidOperationException("Failed to delete the scan record.");
-        }
+        INSERT INTO Hardware (ScanID, HardwareEnd, Prime95Status, StorageStatus, Prime95Path)
+        VALUES ($scanID, $hardwareEnd, $prime95Status, $storageStatus, $prime95Path);";
+        addHardwareScanCommand.Parameters.AddWithValue("$scanID", scanId);
+        addHardwareScanCommand.Parameters.AddWithValue("$hardwareEnd", hardwareEnd);
+        addHardwareScanCommand.Parameters.AddWithValue("$prime95Status", prime95Status);
+        addHardwareScanCommand.Parameters.AddWithValue("$storageStatus", storageStatus);
+        addHardwareScanCommand.Parameters.AddWithValue("$prime95Path", (prime95Path ?? (object)DBNull.Value));
+        addHardwareScanCommand.ExecuteNonQuery();
     }
 
-    // Retrieves a scan record from the Scans table by scan ID.
-    // #TODO: Move to a dedicated ScanRepository class.
-    // #TODO: The returned reader is already closed, because `using` disposes the connection on return
-    //        ("Invalid attempt to call ... when reader is closed"). Return a Scan model instead
-    //        (compare SessionStore.Load() returning SessionContext).
-    public static SqliteDataReader GetScan(long scanID)
+    // Adds a antivirus scan record to the Antivirus table.
+    public static void AddAntivirusScan(long scanId, string antivirusEnd, string virusStatus)
     {
         using var connection = OpenConnection();
-        using var getScanCommand = connection.CreateCommand();
-        getScanCommand.CommandText =
+        using var addAntivirusScanCommand = connection.CreateCommand();
+        addAntivirusScanCommand.CommandText =
         @"
-        SELECT * FROM Scans
-        WHERE ScanID = $scanID;";
-        getScanCommand.Parameters.AddWithValue("$scanID", scanID);
-        var reader = getScanCommand.ExecuteReader();
-        if (!reader.Read())
-        {
-            throw new InvalidOperationException("Scan record not found.");
-        }
-        return reader;
+        INSERT INTO Antivirus (ScanID, AntivirusEnd, VirusStatus)
+        VALUES ($scanID, $antivirusEnd, $virusStatus);";
+        addAntivirusScanCommand.Parameters.AddWithValue("$scanID", scanId);
+        addAntivirusScanCommand.Parameters.AddWithValue("$antivirusEnd", antivirusEnd);
+        addAntivirusScanCommand.Parameters.AddWithValue("$virusStatus", virusStatus);
+        addAntivirusScanCommand.ExecuteNonQuery();
     }
 
-    // #TODO: Methods to insert/update step results (Hardware, Software, Antivirus), including Prime95Path.
-    // #TODO: Choose a testing approach (temporary call from MainPage vs. an xUnit test project).
-};
+    // Adds a software scan record to the Software table.
+    public static void AddSoftwareScan(long scanId, string softwareEnd, string OSFailPoint)
+    {
+        using var connection = OpenConnection();
+        using var addSoftwareScanCommand = connection.CreateCommand();
+        addSoftwareScanCommand.CommandText =
+        @"
+        INSERT INTO Software (ScanID, SoftwareEnd, OSFailPoint)
+        VALUES ($scanID, $softwareEnd, $OSFailPoint);";
+        addSoftwareScanCommand.Parameters.AddWithValue("$scanID", scanId);
+        addSoftwareScanCommand.Parameters.AddWithValue("$softwareEnd", softwareEnd);
+        addSoftwareScanCommand.Parameters.AddWithValue("$OSFailPoint", OSFailPoint);
+        addSoftwareScanCommand.ExecuteNonQuery();
+    }
+}
