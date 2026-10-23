@@ -30,4 +30,9 @@
     <ProjectReference Include="..\ArcShared\ArcShared.csproj" />
   </ItemGroup>
 
+  <!-- Shared theme for ARC, RepairIQ, and DataIQ: one file, linked into each app -->
+  <ItemGroup>
+    <Page Include="..\SharedUI\ArcTheme.xaml" Link="ArcTheme.xaml" />
+  </ItemGroup>
+
 </Project>

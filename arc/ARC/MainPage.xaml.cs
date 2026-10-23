@@ -24,6 +24,9 @@ public sealed partial class MainPage : Page
         SessionStore.Save(_session);
 
         RefreshInfoPanel();
+
+        NavView.SelectedItem = HomeItem;
+        ShowPage(Pages["Home"]);
     }
 
     private void RefreshInfoPanel()
@@ -39,14 +42,71 @@ public sealed partial class MainPage : Page
         StorageText.Text = _session.Storage;
     }
 
-    private void RepairIQButton_Click(object sender, RoutedEventArgs e) =>
-        LaunchTool("RepairIQ.exe");
+    // Content for the shared page template. ExePath = null means the page has no Start button.
+    private sealed record PageInfo(string Title, string Description, string Tagline, string? ExePath);
 
-    private void DataIQButton_Click(object sender, RoutedEventArgs e) =>
-        LaunchTool("DataIQ.exe");
+    private static readonly string AppVersion =
+        typeof(App).Assembly.GetName().Version?.ToString(3) ?? "unknown";
 
-    private void UninstallerButton_Click(object sender, RoutedEventArgs e) =>
-        LaunchTool(Path.Combine("RevoUninstaller", "RevoUPort.exe"));
+    private static readonly Dictionary<string, PageInfo> Pages = new()
+    {
+        ["Home"] = new(
+            "Welcome, tech!",
+            "ARC is your toolkit for diagnosing, repairing, and rescuing customer PCs. " +
+            "Pick a tool from the left, and let's get fixing!",
+            "No screwdrivers were harmed in the making of this app.",
+            null),
+        ["RepairIQ"] = new(
+            "RepairIQ",
+            "One click to stress-test the hardware, hunt down viruses, and patch up Windows. " +
+            "Grab a coffee, Prime95 takes a while.",
+            "Keep the work order sticker handy, you'll need it.",
+            "RepairIQ.exe"),
+        ["DataIQ"] = new(
+            "DataIQ",
+            "Move customer files and drive images safely, so nobody loses a single cat photo.",
+            "Measure twice, copy once.",
+            "DataIQ.exe"),
+        ["Uninstaller"] = new(
+            "Uninstaller",
+            "Launches Revo Uninstaller Portable to evict the programs that overstayed their welcome.",
+            "Bloatware, we hardly knew ye.",
+            Path.Combine("RevoUninstaller", "RevoUPort.exe")),
+        ["Info"] = new(
+            "About ARC",
+            $"ARC (Advanced Repair Console), version {AppVersion}. Release notes and app details coming soon.",
+            "Built for techs, by a tech.",
+            null),
+    };
+
+    private PageInfo _currentPage = Pages["Home"];
+
+    private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    {
+        if (args.SelectedItemContainer?.Tag is string tag && Pages.TryGetValue(tag, out var page))
+        {
+            ShowPage(page);
+        }
+    }
+
+    private void ShowPage(PageInfo page)
+    {
+        _currentPage = page;
+        PageTitleText.Text = page.Title;
+        PageDescriptionText.Text = page.Description;
+        PageTaglineText.Text = page.Tagline;
+        StartButton.Visibility = page.ExePath is null ? Visibility.Collapsed : Visibility.Visible;
+        StatusText.Text = string.Empty;
+    }
+
+    private void StartButton_Click(object sender, RoutedEventArgs e)
+    {
+        // TODO: For RepairIQ, show the work order dialog first and only launch on a valid number.
+        if (_currentPage.ExePath is not null)
+        {
+            LaunchTool(_currentPage.ExePath);
+        }
+    }
 
     private void LaunchTool(string relativeExePath)
     {
