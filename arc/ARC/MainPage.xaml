@@ -49,6 +49,30 @@
                     <TextBlock Text="HOSTNAME" Foreground="Gray" FontSize="11" />
                     <TextBlock x:Name="HostnameText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
                 </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="BITLOCKER" Foreground="Gray" FontSize="11" />
+                    <TextBlock x:Name="BitlockerText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="SERIAL NUMBER" Foreground="Gray" FontSize="11" />
+                    <TextBlock x:Name="SerialNumberText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="OPERATING SYSTEM" Foreground="Gray" FontSize="11" />
+                    <TextBlock x:Name="OperatingSystemText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="PROCESSOR" Foreground="Gray" FontSize="11" />
+                    <TextBlock x:Name="ProcessorText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="MEMORY" Foreground="Gray" FontSize="11" />
+                    <TextBlock x:Name="MemoryText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="STORAGE" Foreground="Gray" FontSize="11" />
+                    <TextBlock x:Name="StorageText" Text="—" Foreground="White" FontSize="16" FontWeight="SemiBold" />
+                </StackPanel>
             </StackPanel>
         </Border>
 

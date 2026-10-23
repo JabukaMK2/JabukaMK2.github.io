@@ -34,5 +34,8 @@
   <ItemGroup>
     <None Update="RevoUninstaller\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Management" />
+  </ItemGroup>
 
 </Project>

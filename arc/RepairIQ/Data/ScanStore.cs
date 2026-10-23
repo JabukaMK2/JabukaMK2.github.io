@@ -1,5 +1,4 @@
 using Microsoft.Data.Sqlite;
-using System.IO;
 
 namespace RepairIQ.Data;
 
@@ -41,10 +40,10 @@ public static class ScanStore
             WorkOrder INTEGER NOT NULL CHECK(WorkOrder > 0),
             SerialNumber TEXT NOT NULL,
             BitlockerStatus TEXT DEFAULT 'Unknown' CHECK(BitlockerStatus IN ('Enabled', 'Disabled', 'Unknown')) NOT NULL,
-            CPU TEXT,
-            RAM TEXT,
+            Processor TEXT,
+            Memory TEXT,
             Storage TEXT,
-            OS TEXT,
+            OperatingSystem TEXT,
             ScanStart TEXT NOT NULL,
             ScanEnd TEXT
         ) STRICT;";
@@ -93,19 +92,23 @@ public static class ScanStore
     }
 
     // Inserts a new scan record into the Scans table.
-    public static long AddScan(string serialNumber, string scanStart, string bitlockerStatus, long workOrder)
+    public static long AddScan(string serialNumber, string scanStart, string bitlockerStatus, long workOrder, string operatingSystem, string processor, string memory, string storage)
     {
         using var connection = OpenConnection();
         using var addScanCommand = connection.CreateCommand();
         addScanCommand.CommandText = 
         @"
-        INSERT INTO Scans (SerialNumber, ScanStart, BitlockerStatus, WorkOrder)
-        VALUES ($serialNumber, $scanStart, $bitlockerStatus, $workOrder);
+        INSERT INTO Scans (SerialNumber, ScanStart, BitlockerStatus, WorkOrder, OperatingSystem, Processor, Memory, Storage)
+        VALUES ($serialNumber, $scanStart, $bitlockerStatus, $workOrder, $operatingSystem, $processor, $memory, $storage);
         SELECT last_insert_rowid();";
         addScanCommand.Parameters.AddWithValue("$serialNumber", serialNumber);
         addScanCommand.Parameters.AddWithValue("$scanStart", scanStart);
         addScanCommand.Parameters.AddWithValue("$bitlockerStatus", bitlockerStatus);
         addScanCommand.Parameters.AddWithValue("$workOrder", workOrder);
+        addScanCommand.Parameters.AddWithValue("$operatingSystem", operatingSystem);
+        addScanCommand.Parameters.AddWithValue("$processor", processor);
+        addScanCommand.Parameters.AddWithValue("$memory", memory);
+        addScanCommand.Parameters.AddWithValue("$storage", storage);
 
         // Validate the result of the insert operation.
         var result = addScanCommand.ExecuteScalar() ?? throw new InvalidOperationException("Failed to insert a new scan record.");

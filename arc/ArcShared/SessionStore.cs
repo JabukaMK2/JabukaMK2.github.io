@@ -2,10 +2,10 @@ using System.Text.Json;
 
 namespace ArcShared;
 
-/// <summary>
-/// Reads/writes the shared session JSON file that ARC.exe, RepairIQ, and DataIQ
-/// use to pass context between their separate processes.
-/// </summary>
+
+// Reads/writes the shared session JSON file that ARC.exe, RepairIQ, and DataIQ
+// use to pass context between their separate processes.
+
 public static class SessionStore
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -13,11 +13,9 @@ public static class SessionStore
         WriteIndented = true
     };
 
-    /// <summary>
-    /// Default location: session.json next to the running exe. All three tools
-    /// are expected to ship side-by-side (on the flash drive or in ARC-PE), so a
-    /// relative path avoids hardcoding a drive letter.
-    /// </summary>
+    // Default location: session.json next to the running exe. All three tools
+    // are expected to ship side-by-side (on the flash drive or in ARC-PE), so a
+    // relative path avoids hardcoding a drive letter.
     public static string DefaultPath =>
         Path.Combine(AppContext.BaseDirectory, "session.json");
 

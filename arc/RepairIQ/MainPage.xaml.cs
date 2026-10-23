@@ -44,7 +44,11 @@ public sealed partial class MainPage : Page
                 _session.SerialNumber,
                 DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 _session.BitlockerStatus,
-                _session.WorkOrder
+                _session.WorkOrder,
+                _session.OperatingSystem,
+                _session.Processor,
+                _session.Memory,
+                _session.Storage
             );
 
 
