@@ -21,8 +21,8 @@
     <SolidColorBrush x:Key="ArcTextSecondary" Color="#6B6B6B" />
     <SolidColorBrush x:Key="ArcError" Color="#B00020" />
 
-    <!-- Material Design Icons (Pictogrammers, Apache 2.0; license ships next to the font in ARC/Assets/Fonts) -->
-    <FontFamily x:Key="MdiFont">ms-appx:///Assets/Fonts/materialdesignicons-webfont.ttf#Material Design Icons</FontFamily>
+    <!-- Phosphor Icons, regular (outline) style: rounded, soft icons (MIT; license ships next to the font in ARC/Assets/Fonts) -->
+    <FontFamily x:Key="ArcIconFont">ms-appx:///Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
 
     <!-- Text styles shared by every page -->
     <Style x:Key="ArcEyebrowText" TargetType="TextBlock">

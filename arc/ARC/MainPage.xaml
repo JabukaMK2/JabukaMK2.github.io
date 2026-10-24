@@ -16,7 +16,7 @@
             <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">26</x:Double>
 
             <Style x:Key="NavIcon" TargetType="FontIcon">
-                <Setter Property="FontFamily" Value="{StaticResource MdiFont}" />
+                <Setter Property="FontFamily" Value="{StaticResource ArcIconFont}" />
                 <Setter Property="FontSize" Value="26" />
             </Style>
 
@@ -55,29 +55,29 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Name="HomeItem" Content="Home" Tag="Home" ToolTipService.ToolTip="Home">
                     <NavigationViewItem.Icon>
-                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xF06A1;" />
+                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xE2C2;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="RepairIQ" Tag="RepairIQ" ToolTipService.ToolTip="RepairIQ">
                     <NavigationViewItem.Icon>
-                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xF0BE0;" />
+                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xE5D4;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="DataIQ" Tag="DataIQ" ToolTipService.ToolTip="DataIQ">
                     <NavigationViewItem.Icon>
-                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xF0256;" />
+                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xE24A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="Uninstaller" Tag="Uninstaller" ToolTipService.ToolTip="Uninstaller">
                     <NavigationViewItem.Icon>
-                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xF0A7A;" />
+                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xE4A6;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem Content="Info" Tag="Info" ToolTipService.ToolTip="Info">
                     <NavigationViewItem.Icon>
-                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xF02FD;" />
+                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xE2CE;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
