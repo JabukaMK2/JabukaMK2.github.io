@@ -15,6 +15,7 @@ public sealed partial class MainPage : Page
 
         _session = SessionStore.Load();
         TargetText.Text = $"Target: {_session.DriveLetter} ({_session.Hostname}, {_session.Mode})";
+        ResetSteps();
 
         // TODO: An exception here (e.g. read-only drive) crashes the page. Report it to the tech
         //        the way RunScanButton_Click does with LogText?
@@ -32,6 +33,7 @@ public sealed partial class MainPage : Page
             return;
         }
 
+        LiveOutputText.Text = string.Empty;
         OutputBox.Text = string.Empty;
         RunScanButton.IsEnabled = false;
         LogText.Text = "Running scan...";
@@ -253,7 +255,8 @@ public sealed partial class MainPage : Page
         return process.ExitCode;
     }
 
-    // Appends a line of output from the scan process to the OutputBox in the UI.
+    // Shows the latest line of script output under the step tracker, and appends it to the
+    // full terminal log inside the "Advanced" expander.
     private void AppendOutput(string? line)
     {
         if (line is null)
@@ -263,6 +266,10 @@ public sealed partial class MainPage : Page
 
         DispatcherQueue.TryEnqueue(() =>
         {
+            if (!string.IsNullOrWhiteSpace(line))
+            {
+                LiveOutputText.Text = line;
+            }
             OutputBox.Text += line + Environment.NewLine;
             OutputScroll.ChangeView(null, OutputScroll.ScrollableHeight, null);
         });

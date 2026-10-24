@@ -21,6 +21,13 @@
     <SolidColorBrush x:Key="ArcTextSecondary" Color="#6B6B6B" />
     <SolidColorBrush x:Key="ArcError" Color="#B00020" />
 
+    <!-- Step status colors (RepairIQ progress tracker) -->
+    <SolidColorBrush x:Key="ArcSuccess" Color="#2E7D32" />
+    <SolidColorBrush x:Key="ArcWarning" Color="#B26A00" />
+    <SolidColorBrush x:Key="ArcUnknown" Color="#6B7280" />
+    <SolidColorBrush x:Key="ArcMuted" Color="#9E9EA8" />
+    <SolidColorBrush x:Key="ArcMutedSurface" Color="#EDEDF2" />
+
     <!-- Phosphor Icons, regular (outline) style: rounded, soft icons (MIT; license ships next to the font in ARC/Assets/Fonts) -->
     <FontFamily x:Key="ArcIconFont">ms-appx:///Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
 
@@ -48,6 +55,39 @@
         <Setter Property="Foreground" Value="{StaticResource ArcTextSecondary}" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!--
+      Dialogs (ContentDialog). The dialog's default button uses WinUI's "accent" colors,
+      so pointing those at ARC's primary color makes every dialog's OK button match.
+    -->
+    <SolidColorBrush x:Key="AccentButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
+    <SolidColorBrush x:Key="AccentButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
+    <SolidColorBrush x:Key="AccentButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
+    <SolidColorBrush x:Key="AccentButtonForeground" Color="White" />
+    <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="White" />
+    <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="White" />
+    <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Transparent" />
+    <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="ContentDialogBackground" Color="White" />
+    <CornerRadius x:Key="OverlayCornerRadius">12</CornerRadius>
+
+    <Style x:Key="ArcDialogTitleText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ArcTextPrimary}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style x:Key="ArcDialogPrimaryButton" TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
+        <Setter Property="CornerRadius" Value="18" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style x:Key="ArcDialogCloseButton" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+        <Setter Property="CornerRadius" Value="18" />
+    </Style>
+    <Style x:Key="ArcTextBox" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="FontSize" Value="15" />
     </Style>
 
     <!--

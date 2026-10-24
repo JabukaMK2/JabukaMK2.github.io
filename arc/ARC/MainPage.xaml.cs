@@ -146,44 +146,64 @@ public sealed partial class MainPage : Page
     private async Task<long?> AskForWorkOrderAsync()
     {
 
-        var inputTextBox = new TextBox 
-        { 
-            PlaceholderText = "Work Order Number",
-            Text = _session.WorkOrder > 0 ? _session.WorkOrder.ToString() : string.Empty
-        };
-        var textBlock = new TextBlock
+        // Look and feel comes from SharedUI/ArcTheme.xaml so the dialog matches the rest of ARC.
+        var theme = Application.Current.Resources;
+
+        var hintTextBlock = new TextBlock
         {
-            Foreground = Application.Current.Resources["ArcError"] as SolidColorBrush,
-            Visibility = Visibility.Collapsed
+            Text = "Grab the number off the work order sticker.",
+            Style = theme["ArcDescriptionText"] as Style,
+            FontSize = 14
         };
+        var inputTextBox = new TextBox
+        {
+            PlaceholderText = "Work Order Number",
+            Text = _session.WorkOrder > 0 ? _session.WorkOrder.ToString() : string.Empty,
+            Style = theme["ArcTextBox"] as Style
+        };
+        var errorTextBlock = new TextBlock
+        {
+            Foreground = theme["ArcError"] as SolidColorBrush,
+            Visibility = Visibility.Collapsed,
+            FontSize = 13,
+            TextWrapping = TextWrapping.Wrap
+        };
+        var stackPanel = new StackPanel { Spacing = 10, MinWidth = 320 };
+        stackPanel.Children.Add(hintTextBlock);
+        stackPanel.Children.Add(inputTextBox);
+        stackPanel.Children.Add(errorTextBlock);
 
         var dialog = new ContentDialog
         {
-            Title = "Enter Work Order",
-            Content = inputTextBox,
+            Title = new TextBlock { Text = "Enter Work Order", Style = theme["ArcDialogTitleText"] as Style },
+            Content = stackPanel,
             PrimaryButtonText = "OK",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
+            PrimaryButtonStyle = theme["ArcDialogPrimaryButton"] as Style,
+            CloseButtonStyle = theme["ArcDialogCloseButton"] as Style,
             XamlRoot = this.XamlRoot
         };
 
-        while (true)
+        dialog.PrimaryButtonClick += (sender, args) =>
         {
-            var result = await dialog.ShowAsync();
-
-            if (result != ContentDialogResult.Primary)
-            {
-                return null;
-            }
-
             if (!long.TryParse(inputTextBox.Text, out var workOrder) || workOrder <= 0)
             {
-                inputTextBox.PlaceholderText = "Work order must be a positive number.";
-                continue;
+                errorTextBlock.Text = "Work order must be a positive number.";
+                errorTextBlock.Visibility = Visibility.Visible;
+                args.Cancel = true;
             }
 
-            _session.WorkOrder = workOrder;
-            return workOrder;
+            if (!args.Cancel)
+            {
+                _session.WorkOrder = workOrder;
+            }
+        };
+        var result = await dialog.ShowAsync();
+        if (result != ContentDialogResult.Primary)
+        {
+            return null;
         }
+        return _session.WorkOrder;
     }
 }

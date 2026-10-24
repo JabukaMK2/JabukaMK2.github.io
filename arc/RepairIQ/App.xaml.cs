@@ -47,6 +47,14 @@ public partial class App : Application
         }
 
         MainWindow.SetWindowIcon();
+
+        // Open maximized: the six-step tracker needs room, and customer machines have all kinds of
+        // screen sizes, so a fixed window size could be bigger than the screen.
+        if (MainWindow.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+        {
+            presenter.Maximize();
+        }
+
         // Ensure the current window is active
         MainWindow.Activate();
     }

@@ -3,56 +3,266 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:RepairIQ"
       Background="{StaticResource ArcPageBackground}">
-    <!-- Colors, fonts, and text/button styles come from SharedUI/ArcTheme.xaml (merged in App.xaml) -->
-    <Grid Padding="56,40">
+    <!-- Colors, fonts, and shared text/button styles come from SharedUI/ArcTheme.xaml (merged in App.xaml) -->
+    <Page.Resources>
+        <!-- Open sections (no boxes), matching ARC's clean, white layout -->
+        <Style x:Key="Panel" TargetType="Border">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style x:Key="PanelHeading" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ArcTextPrimary}" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <!-- Step tracker -->
+        <Style x:Key="StepBubble" TargetType="Border">
+            <Setter Property="Width" Value="52" />
+            <Setter Property="Height" Value="52" />
+            <Setter Property="CornerRadius" Value="26" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Background" Value="{StaticResource ArcPageBackground}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ArcMuted}" />
+        </Style>
+        <Style x:Key="StepTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ArcTextPrimary}" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="StepSubtitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ArcTextSecondary}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,2,0,6" />
+        </Style>
+        <Style x:Key="StepStatus" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ArcTextSecondary}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="StepCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource ArcSurface}" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="MinHeight" Value="112" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+        <Style x:Key="StepDetail" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ArcTextPrimary}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="LineHeight" Value="18" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Padding="56,48" RowSpacing="36">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="ARC · Advanced Repair Console" Style="{StaticResource ArcEyebrowText}" />
-        <TextBlock Grid.Row="1" Text="RepairIQ" Style="{StaticResource ArcTitleText}" />
-        <TextBlock Grid.Row="2" x:Name="TargetText" Text="Target: —"
-                   Style="{StaticResource ArcDescriptionText}" Margin="0,0,0,24" />
+        <!-- Header: same layout as ARC's pages (eyebrow, title, description, pill action, caption) -->
+        <StackPanel Grid.Row="0" MaxWidth="640" HorizontalAlignment="Left">
+            <TextBlock Text="ARC · Advanced Repair Console" Style="{StaticResource ArcEyebrowText}" />
+            <TextBlock Text="RepairIQ" Style="{StaticResource ArcTitleText}" />
+            <TextBlock x:Name="TargetText" Text="Target: —" Style="{StaticResource ArcDescriptionText}" Margin="0,0,0,28" />
 
-        <!-- Pill-shaped primary action, same as ARC's Start button -->
-        <Button Grid.Row="3" x:Name="RunScanButton" Content="Run Scan"
-                Style="{StaticResource ArcPillButton}"
-                Click="RunScanButton_Click" Margin="0,0,0,16">
-            <Button.Resources>
-                <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
-                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
-                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
-                <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#C3BAE8" />
-                <SolidColorBrush x:Key="ButtonForeground" Color="White" />
-                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
-                <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="White" />
-                <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
-                <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
-                <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
-                <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
-            </Button.Resources>
-        </Button>
+            <!-- Pill-shaped primary action, same as ARC's Start button -->
+            <Button x:Name="RunScanButton" Content="Run Scan"
+                    Style="{StaticResource ArcPillButton}" Margin="0,0,0,20"
+                    Click="RunScanButton_Click">
+                <Button.Resources>
+                    <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
+                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#C3BAE8" />
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White" />
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
+                    <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="White" />
+                    <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+                </Button.Resources>
+            </Button>
 
-        <TextBlock Grid.Row="4" x:Name="LogText" Style="{StaticResource ArcCaptionText}"
-                   FontSize="13" Margin="0,0,0,16" />
+            <TextBlock x:Name="LogText" Style="{StaticResource ArcCaptionText}" FontSize="13" />
+        </StackPanel>
 
-        <!-- Live script output, on a light console surface -->
-        <ScrollViewer Grid.Row="5" x:Name="OutputScroll"
-                      Background="{StaticResource ArcSurface}"
-                      BorderBrush="{StaticResource ArcBorder}" BorderThickness="1"
-                      CornerRadius="8" Padding="4"
-                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <TextBox x:Name="OutputBox" IsReadOnly="True" AcceptsReturn="True"
-                     TextWrapping="NoWrap" FontFamily="Consolas" FontSize="13"
-                     Foreground="{StaticResource ArcTextPrimary}"
-                     Background="Transparent" BorderThickness="0"
-                     PlaceholderText="Command output will appear here." />
-        </ScrollViewer>
+        <!--
+          Scan progress: one bubble per step, joined by a line. Each step occupies two of the
+          twelve columns, so the connector runs from the center of the first bubble (column 1)
+          to the center of the last (end of column 10). Updated from code via SetStepState(...).
+        -->
+        <Border Grid.Row="1" Style="{StaticResource Panel}">
+            <Grid RowSpacing="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Scan progress" Style="{StaticResource PanelHeading}" />
+
+                <!-- MinWidth keeps the six steps readable; on a small window the tracker scrolls sideways instead of squashing -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
+                    <Grid VerticalAlignment="Top" MinWidth="960">
+                        <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Rectangle Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="10" Height="2"
+                                   VerticalAlignment="Center" Fill="{StaticResource ArcBorder}" />
+
+                <!-- Start -->
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="StartBubble" Style="{StaticResource StepBubble}">
+                    <Grid>
+                        <ProgressRing x:Name="StartRing" Width="26" Height="26" IsActive="False" Visibility="Collapsed"
+                                      Foreground="{StaticResource ArcPrimary}" />
+                        <FontIcon x:Name="StartIcon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" Glyph="" />
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,12,0,12">
+                    <TextBlock Text="Start" Style="{StaticResource StepTitle}" />
+                    <TextBlock Text="Scan record" Style="{StaticResource StepSubtitle}" />
+                    <TextBlock x:Name="StartStatus" Text="Waiting" Style="{StaticResource StepStatus}" />
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource StepCard}">
+                    <TextBlock x:Name="StartDetail" Style="{StaticResource StepDetail}" />
+                </Border>
+                <!-- Storage -->
+                <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" x:Name="StorageBubble" Style="{StaticResource StepBubble}">
+                    <Grid>
+                        <ProgressRing x:Name="StorageRing" Width="26" Height="26" IsActive="False" Visibility="Collapsed"
+                                      Foreground="{StaticResource ArcPrimary}" />
+                        <FontIcon x:Name="StorageIcon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" Glyph="" />
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,12,0,12">
+                    <TextBlock Text="Storage" Style="{StaticResource StepTitle}" />
+                    <TextBlock Text="Disk health" Style="{StaticResource StepSubtitle}" />
+                    <TextBlock x:Name="StorageStatus" Text="Waiting" Style="{StaticResource StepStatus}" />
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource StepCard}">
+                    <TextBlock x:Name="StorageDetail" Style="{StaticResource StepDetail}" />
+                </Border>
+                <!-- Prime95 -->
+                <Border Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" x:Name="Prime95Bubble" Style="{StaticResource StepBubble}">
+                    <Grid>
+                        <ProgressRing x:Name="Prime95Ring" Width="26" Height="26" IsActive="False" Visibility="Collapsed"
+                                      Foreground="{StaticResource ArcPrimary}" />
+                        <FontIcon x:Name="Prime95Icon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" Glyph="" />
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,12,0,12">
+                    <TextBlock Text="Prime95" Style="{StaticResource StepTitle}" />
+                    <TextBlock Text="CPU &amp; RAM stress" Style="{StaticResource StepSubtitle}" />
+                    <TextBlock x:Name="Prime95Status" Text="Waiting" Style="{StaticResource StepStatus}" />
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource StepCard}">
+                    <TextBlock x:Name="Prime95Detail" Style="{StaticResource StepDetail}" />
+                </Border>
+                <!-- Antivirus -->
+                <Border Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" x:Name="AntivirusBubble" Style="{StaticResource StepBubble}">
+                    <Grid>
+                        <ProgressRing x:Name="AntivirusRing" Width="26" Height="26" IsActive="False" Visibility="Collapsed"
+                                      Foreground="{StaticResource ArcPrimary}" />
+                        <FontIcon x:Name="AntivirusIcon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" Glyph="" />
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,12,0,12">
+                    <TextBlock Text="Antivirus" Style="{StaticResource StepTitle}" />
+                    <TextBlock Text="Defender scan" Style="{StaticResource StepSubtitle}" />
+                    <TextBlock x:Name="AntivirusStatus" Text="Waiting" Style="{StaticResource StepStatus}" />
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Style="{StaticResource StepCard}">
+                    <TextBlock x:Name="AntivirusDetail" Style="{StaticResource StepDetail}" />
+                </Border>
+                <!-- Software -->
+                <Border Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" x:Name="SoftwareBubble" Style="{StaticResource StepBubble}">
+                    <Grid>
+                        <ProgressRing x:Name="SoftwareRing" Width="26" Height="26" IsActive="False" Visibility="Collapsed"
+                                      Foreground="{StaticResource ArcPrimary}" />
+                        <FontIcon x:Name="SoftwareIcon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" Glyph="" />
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,12,0,12">
+                    <TextBlock Text="Software" Style="{StaticResource StepTitle}" />
+                    <TextBlock Text="OS repair" Style="{StaticResource StepSubtitle}" />
+                    <TextBlock x:Name="SoftwareStatus" Text="Waiting" Style="{StaticResource StepStatus}" />
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2" Style="{StaticResource StepCard}">
+                    <TextBlock x:Name="SoftwareDetail" Style="{StaticResource StepDetail}" />
+                </Border>
+                <!-- BitLocker -->
+                <Border Grid.Row="0" Grid.Column="10" Grid.ColumnSpan="2" x:Name="BitlockerBubble" Style="{StaticResource StepBubble}">
+                    <Grid>
+                        <ProgressRing x:Name="BitlockerRing" Width="26" Height="26" IsActive="False" Visibility="Collapsed"
+                                      Foreground="{StaticResource ArcPrimary}" />
+                        <FontIcon x:Name="BitlockerIcon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" Glyph="" />
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="10" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,12,0,12">
+                    <TextBlock Text="BitLocker" Style="{StaticResource StepTitle}" />
+                    <TextBlock Text="Optional" Style="{StaticResource StepSubtitle}" />
+                    <TextBlock x:Name="BitlockerStatus" Text="Waiting" Style="{StaticResource StepStatus}" />
+                </StackPanel>
+                <Border Grid.Row="2" Grid.Column="10" Grid.ColumnSpan="2" Style="{StaticResource StepCard}">
+                    <TextBlock x:Name="BitlockerDetail" Style="{StaticResource StepDetail}" />
+                </Border>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- Activity: the latest script line, with the full terminal under "Advanced" -->
+        <Border Grid.Row="2" Style="{StaticResource Panel}">
+            <StackPanel Spacing="8">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Activity" Style="{StaticResource PanelHeading}" FontSize="14" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" x:Name="LiveOutputText" Text="Idle"
+                               FontFamily="Consolas" FontSize="12" TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center" Foreground="{StaticResource ArcTextSecondary}" />
+                </Grid>
+
+                <Expander x:Name="AdvancedExpander"
+                          IsExpanded="False" ExpandDirection="Down"
+                          HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <Expander.Header>
+                        <TextBlock Text="Advanced" Foreground="{StaticResource ArcTextSecondary}" FontSize="13" />
+                    </Expander.Header>
+                    <ScrollViewer x:Name="OutputScroll" MaxHeight="240"
+                                  Background="{StaticResource ArcSurface}"
+                                  CornerRadius="8" Padding="4"
+                                  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <TextBox x:Name="OutputBox" IsReadOnly="True" AcceptsReturn="True"
+                                 TextWrapping="NoWrap" FontFamily="Consolas" FontSize="12"
+                                 Foreground="{StaticResource ArcTextPrimary}"
+                                 Background="Transparent" BorderThickness="0"
+                                 PlaceholderText="Script output will appear here during a scan." />
+                    </ScrollViewer>
+                </Expander>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
