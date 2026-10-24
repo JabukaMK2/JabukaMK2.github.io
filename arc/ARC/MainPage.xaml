@@ -7,8 +7,8 @@
         <ResourceDictionary>
             <!-- Colors, fonts, and text/button styles come from SharedUI/ArcTheme.xaml (merged in App.xaml) -->
 
-            <!-- NavigationView lightweight styling: light rail, purple selection indicator, bigger icons, no content border -->
-            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{StaticResource ArcPurpleColor}" />
+            <!-- NavigationView lightweight styling: light rail, primary-color selection indicator, bigger icons, no content border -->
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{StaticResource ArcPrimaryColor}" />
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#F7F7F9" />
             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#F7F7F9" />
             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="White" />
@@ -96,9 +96,9 @@
                             Style="{StaticResource ArcPillButton}"
                             Margin="0,0,0,20">
                         <Button.Resources>
-                            <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPurpleColor}" />
-                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPurpleHoverColor}" />
-                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPurplePressedColor}" />
+                            <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
+                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
+                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
                             <SolidColorBrush x:Key="ButtonForeground" Color="White" />
                             <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
                             <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
@@ -116,7 +116,7 @@
         </NavigationView>
 
         <!-- Right: persistent device info sidebar. Stays visible while RepairIQ runs in its own window. -->
-        <Border Grid.Column="1" Background="{StaticResource ArcPurple}" Padding="28,40">
+        <Border Grid.Column="1" Background="{StaticResource ArcPrimary}" Padding="28,40">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="This device" Foreground="White"

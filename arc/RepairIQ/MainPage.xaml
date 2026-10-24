@@ -24,9 +24,9 @@
                 Style="{StaticResource ArcPillButton}"
                 Click="RunScanButton_Click" Margin="0,0,0,16">
             <Button.Resources>
-                <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPurpleColor}" />
-                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPurpleHoverColor}" />
-                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPurplePressedColor}" />
+                <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
+                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
+                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
                 <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#C3BAE8" />
                 <SolidColorBrush x:Key="ButtonForeground" Color="White" />
                 <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />

@@ -8,6 +8,7 @@ public sealed partial class MainPage : Page
 {
     private readonly SessionContext _session;
 
+    // The session context for the current user session.
     public MainPage()
     {
         this.InitializeComponent();
@@ -29,6 +30,7 @@ public sealed partial class MainPage : Page
         ShowPage(Pages["Home"]);
     }
 
+    // Refreshes the information panel with the current session data.
     private void RefreshInfoPanel()
     {
         ModeText.Text = _session.Mode == BootMode.ArcPe ? "ARC-PE" : "Live OS";
@@ -45,9 +47,11 @@ public sealed partial class MainPage : Page
     // Content for the shared page template. ExePath = null means the page has no Start button.
     private sealed record PageInfo(string Title, string Description, string Tagline, string? ExePath);
 
+    // The version of the app.
     private static readonly string AppVersion =
         typeof(App).Assembly.GetName().Version?.ToString(3) ?? "unknown";
 
+    // The collection of pages available in the app.
     private static readonly Dictionary<string, PageInfo> Pages = new()
     {
         ["Home"] = new(
@@ -79,6 +83,7 @@ public sealed partial class MainPage : Page
             null),
     };
 
+    // The currently displayed page.
     private PageInfo _currentPage = Pages["Home"];
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -89,6 +94,7 @@ public sealed partial class MainPage : Page
         }
     }
 
+    // Displays the specified page in the UI.
     private void ShowPage(PageInfo page)
     {
         _currentPage = page;
@@ -99,15 +105,24 @@ public sealed partial class MainPage : Page
         StatusText.Text = string.Empty;
     }
 
-    private void StartButton_Click(object sender, RoutedEventArgs e)
+    // Handles the click event for the Start button.
+    private async void StartButton_Click(object sender, RoutedEventArgs e)
     {
-        // TODO: For RepairIQ, show the work order dialog first and only launch on a valid number.
         if (_currentPage.ExePath is not null)
         {
+            if (_currentPage.Title == "RepairIQ")
+            {
+                var workOrder = await AskForWorkOrderAsync();
+                if (workOrder is null)
+                {
+                    return;
+                }
+            }
             LaunchTool(_currentPage.ExePath);
         }
     }
 
+    // Launches the specified tool executable.
     private void LaunchTool(string relativeExePath)
     {
         var exePath = Path.Combine(AppContext.BaseDirectory, relativeExePath);
@@ -125,5 +140,50 @@ public sealed partial class MainPage : Page
             WorkingDirectory = Path.GetDirectoryName(exePath)
         });
         StatusText.Text = string.Empty;
+    }
+
+    // Asks the user for a work order number and returns it as a long if valid, otherwise null.
+    private async Task<long?> AskForWorkOrderAsync()
+    {
+
+        var inputTextBox = new TextBox 
+        { 
+            PlaceholderText = "Work Order Number",
+            Text = _session.WorkOrder > 0 ? _session.WorkOrder.ToString() : string.Empty
+        };
+        var textBlock = new TextBlock
+        {
+            Foreground = Application.Current.Resources["ArcError"] as SolidColorBrush,
+            Visibility = Visibility.Collapsed
+        };
+
+        var dialog = new ContentDialog
+        {
+            Title = "Enter Work Order",
+            Content = inputTextBox,
+            PrimaryButtonText = "OK",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = this.XamlRoot
+        };
+
+        while (true)
+        {
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                return null;
+            }
+
+            if (!long.TryParse(inputTextBox.Text, out var workOrder) || workOrder <= 0)
+            {
+                inputTextBox.PlaceholderText = "Work order must be a positive number.";
+                continue;
+            }
+
+            _session.WorkOrder = workOrder;
+            return workOrder;
+        }
     }
 }

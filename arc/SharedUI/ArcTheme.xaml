@@ -6,11 +6,13 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Brand purple, ARC's own brand color -->
-    <Color x:Key="ArcPurpleColor">#5E44C7</Color>
-    <Color x:Key="ArcPurpleHoverColor">#4E37AE</Color>
-    <Color x:Key="ArcPurplePressedColor">#3F2C8F</Color>
-    <SolidColorBrush x:Key="ArcPurple" Color="{StaticResource ArcPurpleColor}" />
+    <!-- Primary indigo-violet: ARC's own purple (white text on #5E44C7 has about 7:1 contrast) -->
+    <Color x:Key="ArcPrimaryColor">#5E44C7</Color>
+    <Color x:Key="ArcPrimaryHoverColor">#4E37AE</Color>
+    <Color x:Key="ArcPrimaryPressedColor">#3F2C8F</Color>
+    <SolidColorBrush x:Key="ArcPrimary" Color="{StaticResource ArcPrimaryColor}" />
+    <SolidColorBrush x:Key="ArcPrimaryHover" Color="{StaticResource ArcPrimaryHoverColor}" />
+    <SolidColorBrush x:Key="ArcPrimaryPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
 
     <SolidColorBrush x:Key="ArcPageBackground" Color="White" />
     <SolidColorBrush x:Key="ArcSurface" Color="#F7F7F9" />
@@ -24,7 +26,7 @@
 
     <!-- Text styles shared by every page -->
     <Style x:Key="ArcEyebrowText" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource ArcPurple}" />
+        <Setter Property="Foreground" Value="{StaticResource ArcPrimary}" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Margin" Value="0,0,0,12" />
@@ -49,7 +51,7 @@
     </Style>
 
     <!--
-      Shape of the pill-shaped primary button. Its purple colors go in each button's
+      Shape of the pill-shaped primary button. Its colors go in each button's
       own <Button.Resources> (ButtonBackground, ButtonBackgroundPointerOver, ...),
       because a Style can't change the hover and pressed colors the button template
       reads from resources.

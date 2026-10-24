@@ -29,7 +29,7 @@ The capstone also requires an **ePortfolio Overall Skill Set** section, covering
 | RepairIQ | The automated one-click scan/diagnostic module |
 | DataIQ | The file manager module for data transfers/imaging |
 
-Visual design uses ARC's own theme. Each tool in the dashboard UI will have a short description so technicians aren't confused about what it does.
+Visual design uses ARC's own clean, light theme: a white workspace with an indigo-violet (#5E44C7) primary color for actions and the device-info sidebar, defined once in `arc/SharedUI/ArcTheme.xaml` and shared by all three apps. Each tool in the dashboard UI will have a short description so technicians aren't confused about what it does.
 
 ## System architecture
 
@@ -96,7 +96,7 @@ Operating characteristics:
 - Verbose logging throughout the run
 - Report saved directly to the flash drive itself (not just displayed on screen)
 
-A possible future integration: an existing third-party diagnostics tool may provide an automated CLI script that RepairIQ could wrap or call into, rather than reimplementing all hardware tests from scratch.
+A possible future integration: an existing third-party hardware-diagnostics command-line tool that RepairIQ could wrap or call into, rather than reimplementing all hardware tests from scratch.
 
 ## DataIQ (file manager module)
 
@@ -126,7 +126,7 @@ Decided, not yet built (based on discussion so far):
 - [ ] Pick the concrete WinPE build tooling (e.g., Windows ADK-based WinPE customization) and confirm it can host the Uno Platform-based launcher
 - [ ] Confirm which BitLocker API/CLI approach (manage-bde, PowerShell BitLocker cmdlets) will run the full decrypt with a progress readout
 - [ ] Define the exact JSON schema for the shared session/config file
-- [ ] Scope RepairIQ's hardware test implementation — build from scratch vs. wrap the possible existing third-party diagnostics CLI (needs confirming access/availability)
+- [ ] Scope RepairIQ's hardware test implementation — build from scratch vs. wrap an existing third-party diagnostics CLI (needs confirming access/licensing)
 - [ ] Design the multi-Windows-install detection and dropdown UI in the ARC-PE boot sequence
 - [ ] Map each capstone milestone/week to a specific ARC deliverable (code review artifact, enhancement narratives, self-assessment)
 
