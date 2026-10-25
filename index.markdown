@@ -38,10 +38,10 @@ The goal is a set it and forget it tool that tells the technician exactly what w
 
 <br><br>
 
-*"This is an independent, open-source project and is not affiliated with, endorsed by, or associated with any commercial repair corporation."*
-
-## Enhancements
+## Enhancement Naratives
 
 - [Software Design and Engineering (ARC Launcher)]({{ '/software-engineering/' | relative_url }})
 - [Algorithms and Data Structures (RepairIQ)]({{ '/algorithms/' | relative_url }})
 - [Databases]({{ '/databases/' | relative_url }})
+
+*"This is an independent, open-source project and is not affiliated with, endorsed by, or associated with any commercial repair corporation."*
