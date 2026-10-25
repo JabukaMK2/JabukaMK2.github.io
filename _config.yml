@@ -1,0 +1,7 @@
+remote_theme: pages-themes/minimal@v0.2.0
+
+title: Jabuka's ePortfolio
+description: Landing page for my Advanced Repair Console!
+
+plugins:
+- jekyll-remote-theme
