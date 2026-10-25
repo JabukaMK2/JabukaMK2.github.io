@@ -6,6 +6,6 @@ layout: default
 title: Home
 ---
 
-# Capstone ePortfolio
+# Advanced Repair Console (ARC-PE)
 
 Welcome!  This site showcases the Advanced Repair Console capstone project.
