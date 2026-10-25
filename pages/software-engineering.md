@@ -1,3 +1,9 @@
+---
+layout: default
+title: Software Design and Engineering
+permalink: /software-engineering/
+---
+
 # Software Design and Engineering<br>(ARC Launcher)
 
 My artifact was created about 3 months ago but only as a simple java based menu system that I planned to integrate later.  It is called ARC or the Advanced Repair Console.  I am currently a technician at a phone and computer repair franchise where there is a great lack of experience for software repairs.  
