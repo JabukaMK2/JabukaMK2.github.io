@@ -15,7 +15,7 @@ The app is separated in logic by 4 unique parts all with specific tasks they com
 1. *Hardware* which uses built in hard drive functions to test for SMART values on the host hard drive, it then hands that over to Prime95 which stress tests the CPU and RAM.  These 3 devices make up a vast majority of failures so it tests them first.  After all, there’s no point in repairing the OS if the device is physically failing.
 2. *Antivirus* portion uses windows own defender program to run a quick scan on the host device, even if the host device has another antivirus installed, it will run this without real time protection, preventing issues.  Before starting it updates its virus definitions.
 3. *Bitlocker* tool hosts logic for disabling encryption before rebooting to ARC-PE as external media cannot boot to device while the drive is encrypted.  Right now this is a TODO as ARC-PE was not completed as part of this capstones scope.
-4. *OS Repair* runs checks on the devices temp files (clears them), runs DISM restore and component cleanup, SFC to repair files integrity, and chckdsk to validate the drives integrity, then repair violations.  Chkdsk runs last specifically because it requires a reboot to complete, but the task itself doesn't need to inform the technician.
+4. *OS Repair* runs checks on the devices temp files (clears them), runs DISM restore and component cleanup, SFC to repair files integrity, and chckdsk to validate the drives integrity, then repair violations.  Chckdsk runs last specifically because it requires a reboot to complete, but the task itself doesn't need to inform the technician.
 
 ## Orchestration
 
@@ -31,7 +31,7 @@ The final app uses three different data sources to manage active program executi
 - Strings
 - Codes
 
-Command prompts use codes that throw due to certain conditions that then get translated into string that are fed into the relational database.
+Command prompts use exit codes due to certain conditions that then get translated into string that are fed into the relational database.
 
 As those strings go to the database they are also passed to states that update the status of the repair to the technician.
 
