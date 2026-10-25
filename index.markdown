@@ -38,7 +38,7 @@ The goal is a set it and forget it tool that tells the technician exactly what w
 
 <br><br>
 
-## Enhancement Naratives
+## Enhancement Narratives
 
 - [Software Design and Engineering (ARC Launcher)]({{ '/software-engineering/' | relative_url }})
 - [Algorithms and Data Structures (RepairIQ)]({{ '/algorithms/' | relative_url }})
