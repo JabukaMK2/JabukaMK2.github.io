@@ -28,6 +28,9 @@ public sealed partial class MainPage : Page
 
         NavView.SelectedItem = HomeItem;
         ShowPage(Pages["Home"]);
+
+        // Once laid out, grow the window if the device info doesn't fit (see MainPage.WindowFit.cs)
+        Loaded += (_, _) => DispatcherQueue.TryEnqueue(FitWindowToSidebar);
     }
 
     // Refreshes the information panel with the current session data.

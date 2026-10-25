@@ -18,6 +18,14 @@
     <Description>RepairIQ powered by Uno Platform.</Description>
 
     <!--
+      Unique icon and splash names. All three apps publish into the same folder, so the
+      default names (icon.ico, Assets/Icons/iconLogo.png, ...) would overwrite each other.
+    -->
+    <UnoIconBackgroundFile>Assets/Icons/repairiq_icon.svg</UnoIconBackgroundFile>
+    <UnoIconForegroundFile>Assets/Icons/repairiq_icon_foreground.svg</UnoIconForegroundFile>
+    <UnoSplashScreenFile>Assets/Splash/repairiq_splash_screen.svg</UnoSplashScreenFile>
+
+    <!--
       UnoFeatures are used to quickly add and manage features enabled for your app.
       https://aka.platform.uno/singleproject-features
     -->
@@ -43,9 +51,9 @@
     <Page Include="..\SharedUI\ArcTheme.xaml" Link="ArcTheme.xaml" />
   </ItemGroup>
 
-  <!-- Phosphor icon font (MIT) for the step tracker's check/X icons: same file as ARC's, linked not copied -->
+  <!-- Phosphor Bold icon font (MIT) for the step tracker's icons: same file as ARC's, linked not copied -->
   <ItemGroup>
-    <Content Include="..\ARC\Assets\Fonts\Phosphor.ttf" Link="Assets\Fonts\Phosphor.ttf" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\ARC\Assets\Fonts\Phosphor-Bold.ttf" Link="Assets\Fonts\Phosphor-Bold.ttf" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\ARC\Assets\Fonts\Phosphor-LICENSE.txt" Link="Assets\Fonts\Phosphor-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

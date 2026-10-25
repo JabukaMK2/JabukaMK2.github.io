@@ -7,13 +7,25 @@
         <ResourceDictionary>
             <!-- Colors, fonts, and text/button styles come from SharedUI/ArcTheme.xaml (merged in App.xaml) -->
 
-            <!-- NavigationView lightweight styling: light rail, primary-color selection indicator, bigger icons, no content border -->
-            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{StaticResource ArcPrimaryColor}" />
+            <!-- NavigationView lightweight styling: light rail, tinted selection, bigger icons, no content border -->
+            <!--
+              Selection: the sliding indicator bar is hidden (its animation looked choppy), and the selected
+              item gets a pale violet tint with a violet icon instead, so selection changes instantly.
+            -->
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+            <StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ArcPrimarySurface" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPointerOver" Color="#E4DEF8" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="#D9D1F5" />
+            <StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="ArcPrimary" />
+            <StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="ArcPrimary" />
+            <StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="ArcPrimary" />
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#F7F7F9" />
             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#F7F7F9" />
             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="White" />
             <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
             <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">26</x:Double>
+            <!-- Square rail buttons: 56 tall minus the 1px inset above and below = 54, matching the highlight width of 54 -->
+            <x:Double x:Key="NavigationViewItemOnLeftMinHeight">56</x:Double>
 
             <Style x:Key="NavIcon" TargetType="FontIcon">
                 <Setter Property="FontFamily" Value="{StaticResource ArcIconFont}" />
@@ -77,7 +89,13 @@
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem Content="Info" Tag="Info" ToolTipService.ToolTip="Info">
                     <NavigationViewItem.Icon>
-                        <FontIcon Style="{StaticResource NavIcon}" Glyph="&#xE2CE;" />
+                        <!--
+                          Drawn by hand instead of Phosphor's info glyph, whose serif "i" looks off-center:
+                          a ring (outer and inner circles, even-odd fill), a dot, and a rounded stem,
+                          all centered on 13,13 with the bold icons' stroke width.
+                        -->
+                        <PathIcon Width="26" Height="26"
+                                  Data="F0 M2,13 A11,11 0 1 1 24,13 A11,11 0 1 1 2,13 Z M4.4,13 A8.6,8.6 0 1 1 21.6,13 A8.6,8.6 0 1 1 4.4,13 Z M11.5,9 A1.5,1.5 0 1 1 14.5,9 A1.5,1.5 0 1 1 11.5,9 Z M11.8,13.4 A1.2,1.2 0 0 1 14.2,13.4 V17.2 A1.2,1.2 0 0 1 11.8,17.2 Z" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
@@ -117,8 +135,8 @@
 
         <!-- Right: persistent device info sidebar. Stays visible while RepairIQ runs in its own window. -->
         <Border Grid.Column="1" Background="{StaticResource ArcPrimary}" Padding="28,40">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+            <ScrollViewer x:Name="SidebarScroll" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="SidebarPanel">
                     <TextBlock Text="This device" Foreground="White"
                                FontSize="20" FontWeight="SemiBold" Margin="0,0,0,24" />
 

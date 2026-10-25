@@ -57,6 +57,11 @@ public partial class App : Application
 
         // Ensure the current window is active
         MainWindow.Activate();
+
+        // Set the icon again now that the window knows the display scale. Uno 6.7 loads the
+        // manifest icon before it reads the scale, so on 125%/150% screens the taskbar icon was a
+        // 24px image stretched up. The 256px source keeps it sharp at any scale.
+        MainWindow.AppWindow.SetIcon("Assets/Icons/repairiq_iconLogo.targetsize-256.png");
     }
 
     /// <summary>

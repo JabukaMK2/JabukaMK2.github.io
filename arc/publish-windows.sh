@@ -13,12 +13,15 @@ for app in ARC RepairIQ DataIQ; do
   echo "== Publishing $app ($RID)"
   # Trimming stays off: the three apps share one folder, and a framework DLL
   # trimmed for one app could be missing code another app needs.
+  # DebugType=portable (not none): with "none", Uno's resource-injection step leaves an
+  # empty .pdb in obj/, and the next publish crashes trying to read it. Real symbols are
+  # built here and stripped from the output folder below.
   dotnet publish "$app/$app.csproj" -c Release -f net10.0-desktop -r "$RID" \
     --self-contained -p:PublishTrimmed=false -p:PublishReadyToRun=false \
-    -p:DebugType=none -o "$OUT"
+    -p:DebugType=portable -o "$OUT"
 done
 
-# libSkiaSharp ships a native .pdb that DebugType=none does not cover
+# Strip all debug symbols from the shipped folder (our apps' and libSkiaSharp's native one)
 find "$OUT" -name "*.pdb" -delete
 
 echo

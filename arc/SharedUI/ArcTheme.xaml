@@ -27,9 +27,16 @@
     <SolidColorBrush x:Key="ArcUnknown" Color="#6B7280" />
     <SolidColorBrush x:Key="ArcMuted" Color="#9E9EA8" />
     <SolidColorBrush x:Key="ArcMutedSurface" Color="#EDEDF2" />
+    <!-- Pale tints behind the status icons (icon in the status color on its tint) -->
+    <SolidColorBrush x:Key="ArcPrimarySurface" Color="#EEEAFB" />
+    <SolidColorBrush x:Key="ArcSuccessSurface" Color="#E6F4EA" />
+    <SolidColorBrush x:Key="ArcErrorSurface" Color="#FCE8EB" />
+    <SolidColorBrush x:Key="ArcWarningSurface" Color="#FFF3E0" />
+    <SolidColorBrush x:Key="ArcUnknownSurface" Color="#EEF0F3" />
 
-    <!-- Phosphor Icons, regular (outline) style: rounded, soft icons (MIT; license ships next to the font in ARC/Assets/Fonts) -->
-    <FontFamily x:Key="ArcIconFont">ms-appx:///Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
+    <!-- Phosphor Icons, bold style: rounded icons whose heavier strokes stay crisp at small sizes
+         (MIT; the font and its license live in ARC/Assets/Fonts and are linked into RepairIQ) -->
+    <FontFamily x:Key="ArcIconFont">ms-appx:///Assets/Fonts/Phosphor-Bold.ttf#Phosphor-Bold</FontFamily>
 
     <!-- Text styles shared by every page -->
     <Style x:Key="ArcEyebrowText" TargetType="TextBlock">

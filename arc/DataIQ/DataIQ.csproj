@@ -18,6 +18,14 @@
     <Description>DataIQ powered by Uno Platform.</Description>
 
     <!--
+      Unique icon and splash names. All three apps publish into the same folder, so the
+      default names (icon.ico, Assets/Icons/iconLogo.png, ...) would overwrite each other.
+    -->
+    <UnoIconBackgroundFile>Assets/Icons/dataiq_icon.svg</UnoIconBackgroundFile>
+    <UnoIconForegroundFile>Assets/Icons/dataiq_icon_foreground.svg</UnoIconForegroundFile>
+    <UnoSplashScreenFile>Assets/Splash/dataiq_splash_screen.svg</UnoSplashScreenFile>
+
+    <!--
       UnoFeatures are used to quickly add and manage features enabled for your app.
       https://aka.platform.uno/singleproject-features
     -->
