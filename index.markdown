@@ -1,6 +1,5 @@
 ---
-layout: default
-title: Home
+layout: home
 ---
 
 # Advanced Repair Console (ARC-PE)
