@@ -36,6 +36,7 @@ The goal is a set it and forget it tool that tells the technician exactly what w
 ![Alt Text](/pages/images/data-iq.png)
 <p align="center"><sub>Note: This will have an option to select a folder, then select a location to auto transfer user data for backup.  It is currently in progress.</sub></p>
 
+<br><br>
 
 *"This is an independent, open-source project and is not affiliated with, endorsed by, or associated with any commercial repair corporation."*
 
