@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Software Design and Engineering
-permalink: /software-engineering/
+title: Algorithms and Data Structures
+permalink: /algorithms/
 ---
 
 # Algorithms and Data Structure<br>(RepairIQ)
