@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: Software Design and Engineering
 permalink: /software-engineering/
 ---
