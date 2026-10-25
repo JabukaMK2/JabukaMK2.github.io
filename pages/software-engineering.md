@@ -39,7 +39,7 @@ Next, one major focus was ensuring that nothing I used would violate licenses of
 
 - MIT used by the Phosphor icon pack I used and my own project.
 - Apache 2.0 used by Uno (only for framework).
-- Revo Uninstaller which allowed commercial use under a Freeware license, meaning it could be used but cannot be changed or integrated in any way.
+- Revo Uninstaller under a Freeware license.
 
 Many tools use open source licenses which only allow unlimited use for non-commercial applications.  If I was to present this tool as an option it had to abide by any license ahead of time.  Thus, as MIT and Apache 2.0 require, I have the license stored along side the application.
 
