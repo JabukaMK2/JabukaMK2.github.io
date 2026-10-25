@@ -23,12 +23,12 @@ For questions like these JSON files were not the stronger option.  I needed many
 
 ## SQLite
 
-DOTNET 10 has a built in windows adaptation of SQLite.  This meant that large amounts of data can be saved to a single database file, built and managed locally by the app and prepares the data to be uploaded to an external source if such integration is needed in the future.
+DOTNET 10 does not have a built in SQLite implementation but fortunately does support Microsoft.Data.Sqlite NuGet package which works in both Windows and Linux.  This meant that large amounts of data can be saved to a single database file, built and managed locally by the app and prepares the data to be uploaded to an external source if such integration is needed in the future.
 
 <img width="569" height="325" alt="image" src="https://github.com/user-attachments/assets/ad476c02-981a-48a1-992f-b6ba5dc2e381" />
 
 
-This plan was adaped and changed multiple times since its creation but the core logic is the same.  First, the device table was removed from the database entirely and was instead managed by ARC using the session.json file.  Serial number was avoided as a primary or forein key in an attempt to avoid natural keys that could repeat.
+This plan was adapted and changed multiple times since its creation but the core logic is the same.  First, the device table was removed from the database entirely and was instead managed by ARC using the session.json file.  Serial number was avoided as a primary or foreign key in an attempt to avoid natural keys that could repeat.
 
 Information about the device hosted in the Device table is now all in the Scan table as info about the device being scanned.  Moving device info out of the SQLite database meant I could use the session file to give the user information about the device on the ARC launcher.  It still adds to the database via the scan table, but instead of going straight to the database, it lives on JSON and only grabs it when the scan starts.
 
