@@ -1,3 +1,9 @@
+---
+layout: default
+title: Software Design and Engineering
+permalink: /software-engineering/
+---
+
 # Algorithms and Data Structure<br>(RepairIQ)
 
 This artifact is the core logic behind the automated repair cycle component of my finished product.  The original was a simple batch file to run automated repair scripts, requiring a right click and run as admin to use it properly.  The idea was to automate the OS repair workflow to the point that I didn’t need to intervene.  I made it along with the other portions of my system as separate batch files or applications.  I find that this artifact sufficiently shows my progress with algorithms and data structures.  Not only is the whole RepairIQ function a series of separate, encapsulated command files, the commands all execute a large number of OS repair tasks without any intervention.
