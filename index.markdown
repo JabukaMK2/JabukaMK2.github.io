@@ -24,7 +24,7 @@ In my workplace we use work orders to signify each device and often must pass ta
 ### Data Structures
 **CS-320: JUnit Testing:** We focused on engineering an automated JUnit testing system that would execute test cases one by one.  Here we learned about test coverage and exception handling, although no other language makes it quite as easy as Java's native JUnit system.  My own code in this program was C# and was being implemented in a Linux environment.  I had less to work with, but I managed to create sample UI data sets to pass the same testing but without dedicated JUnit methods.
 
-### Software Engineering
+### Software Engineering and Databases
 **CS-340: Server Development:** A focus on MongoDB and database queries where CRUD principles were established.  Here I discovered that a large number of helper functions is far preferable to repeating yourself in code.  After building a create, return, update, delete system, you can call on them when querying the database.  Doing so is far more preferable to entering queries directly into MongoDB and here we both had to do it manually, then with the help of functions we made.
 
 **Intro to Databases:** Focused on MySQL and was my first exposure to database systems.  This course was a learning experience for sure.  Database queries in the console we used did not allow recalling previous queries, so say a query failed, that meant you had to go back and redo the entire query.  I definitely improved my typing accuracy after suffering this course!
