@@ -22,7 +22,7 @@ title: Capstone ePortfolio
 description: >- # this means to ignore newlines until "baseurl:"
   Main page of my ePortfolio to showcase the Advanced Repair Console established as the capstone project.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://jabukamk2.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://jabukamk2.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  JabukaMK2
 
 # Build settings
