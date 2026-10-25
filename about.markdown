@@ -3,6 +3,6 @@ layout: default
 title: Home
 ---
 
-# Capstone ePortfolio
+# Advanced Repair Console
 
 Welcome!  This site showcases the Advanced Repair Console capstone project.
