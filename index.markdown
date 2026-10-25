@@ -39,6 +39,7 @@ In my workplace we use work orders to signify each device and often must pass ta
 
 ---
 <br>
+
 ## Featured Project: Advanced Repair Console (ARC)
 
 The three artifacts in this portfolio are not separate class assignments, instead I built this from scratch based on an idea and USB toolkit's I have used in the past.  I created them because I needed something like it and I missed the tools I used to have.  Thus, I used the ARC project across all three deliverables as the toolkit could easily match all three core areas.  Together they, my tools follow the path of a single repair, from start to finish.  This is not the finished product, only the first draft.
