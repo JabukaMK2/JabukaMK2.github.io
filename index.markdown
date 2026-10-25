@@ -13,20 +13,23 @@ The goal is a set it and forget it tool that tells the technician exactly what w
 
 ### ARC
 ![Alt Text](/pages/images/arc-landing.png)
-<p align="center"><sub>Note: This is the landing page for ARC.exe, here the tech can switch between four pages, home, RepairIQ, DataIQ, and Revo Uninstaller.  Device info is grabbed using WMI toolkit system.management.</sub>
+<p align="center"><sub>Note: This is the landing page for ARC.exe, here the tech can switch between four pages.  Device info is grabbed using WMI toolkit system.management.</sub>
 
 ### RepairIQ
 #### Main Console
 ![Alt Text](/pages/images/repair-iq.png)
 <p align="center"><sub>Note: This is the testing page where progress is updated with an advanced section at the bottom that shows the terminal in action.</sub>
 
+
 #### Scan Summary
 ![Alt Text](/pages/images/results.png)
 <p align="center"><sub>Note: This is the page that immediately opens after RepairIQ completes, it retrieves the data from the SQLite database then displays it.</sub>
 
+
 ### DataIQ (*not yet implemented*)
 ![Alt Text](/pages/images/data-iq.png)
 <p align="center"><sub>Note: This will have an option to select a folder, then select a location to auto transfer user data for backup.  It is currently in progress.</sub>
+
 
 *"This is an independent, open-source project and is not affiliated with, endorsed by, or associated with any commercial repair corporation."*
 
