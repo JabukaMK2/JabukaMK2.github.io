@@ -25,7 +25,8 @@ For questions like these JSON files were not the stronger option.  I needed many
 
 DOTNET 10 has a built in windows adaptation of SQLite.  This meant that large amounts of data can be saved to a single database file, built and managed locally by the app and prepares the data to be uploaded to an external source if such integration is needed in the future.
 
-[Inset SQLite first itteration]
+<img width="569" height="325" alt="image" src="https://github.com/user-attachments/assets/ad476c02-981a-48a1-992f-b6ba5dc2e381" />
+
 
 This plan was adaped and changed multiple times since its creation but the core logic is the same.  First, the device table was removed from the database entirely and was instead managed by ARC using the session.json file.  Serial number was avoided as a primary or forein key in an attempt to avoid natural keys that could repeat.
 
