@@ -1,3 +1,9 @@
+---
+layout: default
+title: Databases
+permalink: /databases/
+---
+
 # Databases
 
 The final of the 3 main implementations was databases and I built this as part of the larger plan of the ARC toolkit.  So far it has a RepairIQ system that does advanced OS repair tasks and hardware testing.  The database is a method for storing and accessing data written during the RepairIQ process for proper logging and to give a simple one page report at the end of the testing cycle.
