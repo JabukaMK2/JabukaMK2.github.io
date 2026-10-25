@@ -4,6 +4,8 @@ namespace RepairIQ.Data;
 
 public static class ScanRead
 {
+
+    // Reads a scan report from the database based on the provided scan ID. Returns null if no report is found.
     public static ScanReport? ReadScan(long scanId)
     {
         using var connection = ScanStore.OpenConnection();
@@ -21,6 +23,8 @@ public static class ScanRead
         ";
         getScanCommand.Parameters.AddWithValue("@scanId", scanId);
         using var reader = getScanCommand.ExecuteReader();
+
+        // Attempt to read the scan report from the database.
         if (reader.Read())
         {
             ScanReport report = new ScanReport

@@ -24,6 +24,8 @@
     <!-- Step status colors (RepairIQ progress tracker) -->
     <SolidColorBrush x:Key="ArcSuccess" Color="#2E7D32" />
     <SolidColorBrush x:Key="ArcWarning" Color="#B26A00" />
+    <!-- Darker amber for warning *text*: #B26A00 is fine for icons but too light for reading (3.9:1); this is 5.7:1 -->
+    <SolidColorBrush x:Key="ArcWarningText" Color="#8F5500" />
     <SolidColorBrush x:Key="ArcUnknown" Color="#6B7280" />
     <SolidColorBrush x:Key="ArcMuted" Color="#9E9EA8" />
     <SolidColorBrush x:Key="ArcMutedSurface" Color="#EDEDF2" />

@@ -2,7 +2,9 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:RepairIQ"
+      NavigationCacheMode="Required"
       Background="{StaticResource ArcPageBackground}">
+    <!-- NavigationCacheMode keeps this page (and the finished tracker) alive while the summary page is open -->
     <!-- Colors, fonts, and shared text/button styles come from SharedUI/ArcTheme.xaml (merged in App.xaml) -->
     <Page.Resources>
         <Style x:Key="SectionHeading" TargetType="TextBlock">
@@ -45,25 +47,43 @@
                 <TextBlock x:Name="TargetText" Text="Target: —" Style="{StaticResource ArcDescriptionText}" FontSize="14" />
             </StackPanel>
 
-            <!-- Pill-shaped primary action, same as ARC's Start button -->
-            <Button Grid.Column="1" x:Name="RunScanButton" Content="Run Scan"
-                    Style="{StaticResource ArcPillButton}" VerticalAlignment="Center"
-                    Click="RunScanButton_Click">
-                <Button.Resources>
-                    <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
-                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
-                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
-                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#C3BAE8" />
-                    <SolidColorBrush x:Key="ButtonForeground" Color="White" />
-                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
-                    <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="White" />
-                    <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
-                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
-                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
-                    <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
-                </Button.Resources>
-            </Button>
+            <!-- Scan actions: "View summary" (outlined) appears once a scan has been saved -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                <Button x:Name="ViewSummaryButton" Content="View summary" Click="ViewSummaryButton_Click"
+                        Style="{StaticResource ArcPillButton}" MinWidth="160" Visibility="Collapsed">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonBackground" Color="White" />
+                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F7F7F9" />
+                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#EDEDF2" />
+                        <SolidColorBrush x:Key="ButtonForeground" Color="{StaticResource ArcPrimaryColor}" />
+                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{StaticResource ArcPrimaryColor}" />
+                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{StaticResource ArcPrimaryColor}" />
+                        <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource ArcPrimaryColor}" />
+                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{StaticResource ArcPrimaryColor}" />
+                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{StaticResource ArcPrimaryColor}" />
+                    </Button.Resources>
+                </Button>
+
+                <!-- Pill-shaped primary action, same as ARC's Start button -->
+                <Button x:Name="RunScanButton" Content="Run Scan"
+                        Style="{StaticResource ArcPillButton}"
+                        Click="RunScanButton_Click">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
+                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
+                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
+                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#C3BAE8" />
+                        <SolidColorBrush x:Key="ButtonForeground" Color="White" />
+                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
+                        <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="White" />
+                        <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
+                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
+                        <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
         </Grid>
 
         <!-- Overall progress: filled in by SetStepState as steps finish -->

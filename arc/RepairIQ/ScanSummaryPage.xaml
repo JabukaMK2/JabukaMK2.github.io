@@ -1,0 +1,114 @@
+<Page x:Class="RepairIQ.ScanSummaryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource ArcPageBackground}">
+    <!-- Opens when a scan finishes. Everything on it comes from the scan saved in the database. -->
+    <Page.Resources>
+        <Style x:Key="SectionHeading" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource ArcTextPrimary}" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Padding="48,28" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header: same layout as the scan page -->
+        <Grid ColumnSpacing="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="RepairIQ" Style="{StaticResource ArcEyebrowText}" Margin="0,0,0,6" />
+                <TextBlock Text="Scan summary" Style="{StaticResource ArcTitleText}" Margin="0,0,0,4" />
+                <TextBlock x:Name="SubtitleText" Style="{StaticResource ArcDescriptionText}" FontSize="14" />
+            </StackPanel>
+            <Button Grid.Column="1" Content="Back to scan" Click="BackButton_Click"
+                    Style="{StaticResource ArcPillButton}" MinWidth="160" VerticalAlignment="Center">
+                <Button.Resources>
+                    <SolidColorBrush x:Key="ButtonBackground" Color="White" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F7F7F9" />
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#EDEDF2" />
+                    <SolidColorBrush x:Key="ButtonForeground" Color="{StaticResource ArcPrimaryColor}" />
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{StaticResource ArcPrimaryColor}" />
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{StaticResource ArcPrimaryColor}" />
+                    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource ArcPrimaryColor}" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{StaticResource ArcPrimaryColor}" />
+                    <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{StaticResource ArcPrimaryColor}" />
+                </Button.Resources>
+            </Button>
+        </Grid>
+
+        <!-- Overall verdict, tinted green / red / gray -->
+        <Border Grid.Row="1" x:Name="VerdictBanner" CornerRadius="12" Padding="20,14">
+            <StackPanel Orientation="Horizontal" Spacing="14">
+                <FontIcon x:Name="VerdictIcon" FontFamily="{StaticResource ArcIconFont}" FontSize="22" VerticalAlignment="Center" />
+                <TextBlock x:Name="VerdictText" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <!-- Body: per-test results on the left, copyable work order notes on the right -->
+        <Grid Grid.Row="2" ColumnSpacing="40">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="420" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid RowSpacing="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Tests" Style="{StaticResource SectionHeading}" />
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <!-- Built in code: a heading per component, then one row per test -->
+                    <StackPanel x:Name="TestList" Spacing="2" />
+                </ScrollViewer>
+            </Grid>
+
+            <Border Grid.Column="1" BorderBrush="{StaticResource ArcBorder}" BorderThickness="1,0,0,0" Padding="40,0,0,0">
+                <Grid RowSpacing="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Work order notes" Style="{StaticResource SectionHeading}" />
+                    <TextBlock Grid.Row="1" Text="Copy this into the customer's work order."
+                               Style="{StaticResource ArcCaptionText}" FontSize="13" />
+                    <TextBox Grid.Row="2" x:Name="NotesBox" IsReadOnly="True" AcceptsReturn="True"
+                             TextWrapping="Wrap" FontSize="14"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             Background="{StaticResource ArcSurface}" BorderThickness="0" CornerRadius="12"
+                             Padding="20,16" />
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="16">
+                        <Button x:Name="CopyButton" Content="Copy notes" Click="CopyButton_Click"
+                                Style="{StaticResource ArcPillButton}">
+                            <Button.Resources>
+                                <SolidColorBrush x:Key="ButtonBackground" Color="{StaticResource ArcPrimaryColor}" />
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource ArcPrimaryHoverColor}" />
+                                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource ArcPrimaryPressedColor}" />
+                                <SolidColorBrush x:Key="ButtonForeground" Color="White" />
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White" />
+                                <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+                                <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Transparent" />
+                                <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Transparent" />
+                            </Button.Resources>
+                        </Button>
+                        <TextBlock x:Name="CopiedText" Text="Copied to clipboard" VerticalAlignment="Center"
+                                   Foreground="{StaticResource ArcSuccess}" FontSize="13" FontWeight="SemiBold"
+                                   Opacity="0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

@@ -156,7 +156,8 @@ public sealed partial class MainPage
             StepState.Running => "This test is running. Results will appear here when it finishes.",
             _                 => "No details were reported for this test.",
         };
-        DetailText.Foreground = hasDetail ? Res("ArcTextPrimary") : Res("ArcTextSecondary");
+        // Results text takes the step's color (green pass, red fail, amber warning); placeholders stay gray.
+        DetailText.Foreground = hasDetail ? ResultBrush(view.State) : Res("ArcTextSecondary");
     }
 
     // Progress bar and "x of y tests complete" under the header.
@@ -209,9 +210,20 @@ public sealed partial class MainPage
     {
         StepState.Passed  => Res("ArcSuccess"),
         StepState.Failed  => Res("ArcError"),
-        StepState.Warning => Res("ArcWarning"),
+        StepState.Warning => Res("ArcWarningText"),
         StepState.Running => Res("ArcPrimary"),
         _                 => Res("ArcTextSecondary"),
+    };
+
+    // Text color for the Results card: tinted like the status, but unknown results stay dark
+    // enough to read comfortably (they usually explain what the tech should check by hand).
+    private static Brush ResultBrush(StepState state) => state switch
+    {
+        StepState.Passed  => Res("ArcSuccess"),
+        StepState.Failed  => Res("ArcError"),
+        StepState.Warning => Res("ArcWarningText"),
+        StepState.Skipped => Res("ArcTextSecondary"),
+        _                 => Res("ArcTextPrimary"),
     };
 
     // Opening the Advanced terminal scrolls the page down so the terminal is in view.

@@ -14,20 +14,19 @@ echo.
 
 :: Step 1: Delete temporary files.
 echo Deleting temporary files...
-echo Deleting temporary files...
 del /q /f /s "%TEMP%\*" 2>nul || (echo Failed to delete temporary files. & exit /b 1)
 echo Done!
 echo.
     
 :: Step 2: Perform DISM cleanup and repair.
-echo DISM cleanup and repair process starting...
+echo DISM cleanup starting...
 dism /online /cleanup-image /startcomponentcleanup || (echo DISM cleanup failed. & exit /b 2)
 dism /online /cleanup-image /restorehealth || (echo DISM repair failed. & exit /b 2)
 echo Done!
 echo.
 
 :: Step 3: Perform system file check and repair.
-echo System file check and repair process starting...
+echo System file check starting...
 sfc /scannow || (echo System file check failed. & exit /b 3)
 echo Done!
 echo.
