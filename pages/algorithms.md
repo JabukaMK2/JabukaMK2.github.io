@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: Algorithms and Data Structures
 permalink: /algorithms/
 ---
