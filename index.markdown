@@ -5,7 +5,7 @@ title: Home
 
 # Advanced Repair Console (ARC-PE)
 
-### Welcome!  This site showcases the Advanced Repair Console capstone project.
+### Welcome!<br>This site showcases the Advanced Repair Console capstone project.
 
 The ARC application is a unique tool designed to bridge the gap between knowledge and execution.  Often, technicians lack software repair experience and in a repair environment, finding time to educate techs on a field with such nuance (software repairs) is not always possible.  This tool aims to help technicians automatically complete software repairs without any intervention by the tech.
 
