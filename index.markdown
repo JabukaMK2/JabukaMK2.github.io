@@ -1,46 +1,18 @@
 ---
 layout: home
+title: About Me
 ---
 
-# Advanced Repair Console (ARC-PE)
+Welcome!  My name is Eric Schooler and I am currently a technician for a prominent device repair company.  I have a strong repair skill-set in troubleshooting and physical repairs.  One day, I decided that I wanted to grow my skill set from IT and technical experience to CS with programming with my focus.  When I started my degree, I was working at a major retailer as a store manager and found the job unrewarding, lacking creative challenge.  Then one day, my partner approached me after a rough day during the holidays and said "if you don't like it, change it, get a degree!" and thus I began my journey at SNHU.
 
-### Welcome!
+As I continued my time at SNHU, I made the determination to switch to Linux from Windows 11.  I did this for couple reasons, the first, as an OS repair technician I saw an incredible amount of vulnerabilities and errors with Windows due to outdated architecture such as the NTFS file system.  In addition Microsoft as of Windows 11 24H2 had removed a local account bypass in an effort to force the user to sign in, this was so they could more efficiently show the user ads within the start menu and take telemetry data via cloud.  Finally, a well known game platform innovation company named Valve announced that due to extreme limitations of Windows and the forced "walled garden" architecture they would be making an open source Linux build based on Arch and develop a gaming compatibility layer based on Wine called Proton.  Because of this, I had no reason to stay on Windows, and I felt I could learn more by giving myself one rule: I would never go back to Windows, instead I would find a way.  I used Linux as an opportunity to learn OS architecture along side my computer science program.
 
-The ARC application is a unique tool designed to bridge the gap between knowledge and execution.  Often, technicians lack software repair experience and in a repair environment, finding time to educate techs on a field with such nuance (software repairs) is not always possible.  This tool aims to help technicians automatically complete software repairs without any intervention by the tech.
+Many times during my studies I ran into hiccups like in 'CS-330: Graphics and Visualization' where the OpenGL project we worked on was a Visual Studio project file, which is a unique C++ compiler that only works on Windows due to core system dependencies.  In order to 
 
-The goal is a set it and forget it tool that tells the technician exactly what went wrong so they may effectively communicate that with the client while establishing a baseline software repair competence across multiple stores.  In the day to day often technicians in other locations will send clients to ours due to my software repair competencies, this tool means the easy problems are solved which makes up a vast majority of client OS repairs.
+---
 
-<br><br>
+## Featured Project: Advanced Repair Console (ARC)
 
-### ARC
-![Alt Text](/pages/images/arc-landing.png)
-<p align="center"><sub>Note: This is the landing page for ARC.exe, here the tech can switch between four pages.  Device info is grabbed using WMI toolkit system.management.</sub></p>
+ARC is my CS-499 capstone project.  The project page walks through the original artifact and my enhancements in software design, algorithms, and databases.
 
-<br><br>
-
-### RepairIQ
-#### Main Console
-![Alt Text](/pages/images/repair-iq.png)
-<p align="center"><sub>Note: This is the testing page where progress is updated with an advanced section at the bottom that shows the terminal in action.</sub></p>
-
-<br><br>
-
-#### Scan Summary
-![Alt Text](/pages/images/results.png)
-<p align="center"><sub>Note: This is the page that immediately opens after RepairIQ completes, it retrieves the data from the SQLite database then displays it.</sub></p>
-
-<br><br>
-
-### DataIQ (*not yet implemented*)
-![Alt Text](/pages/images/data-iq.png)
-<p align="center"><sub>Note: This will have an option to select a folder, then select a location to auto transfer user data for backup.  It is currently in progress.</sub></p>
-
-<br><br>
-
-## Enhancement Narratives
-
-- [Software Design and Engineering (ARC Launcher)]({{ '/software-engineering/' | relative_url }})
-- [Algorithms and Data Structures (RepairIQ)]({{ '/algorithms/' | relative_url }})
-- [Databases]({{ '/databases/' | relative_url }})
-
-*"This is an independent, open-source project and is not affiliated with, endorsed by, or associated with any commercial repair corporation."*
+**[View the ARC project →]({% link arc-landing.md %})**
