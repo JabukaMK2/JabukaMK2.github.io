@@ -37,9 +37,7 @@ In my workplace we use work orders to signify each device and often must pass ta
 ## Security
 **CS-305: Software Security:** Was a class focused on Maven projects using testing methods for security vulnerabilities.  We used centralized vulnerability scans through Maven and worked as a security consultant company for Artemis Financial who were creating a new system for financial data.  The class wasn't about storing the data, but rather about handling the data in a safe way that avoided vulnerabilities.  We learned about SHA-256 hash checksum, and RSA certificate handling.  We also discussed common methods of data protection such as AES using hidden and public keys.
 
----
-<br>
-
+<br><br>
 ## Featured Project: Advanced Repair Console (ARC)
 
 The three artifacts in this portfolio are not separate class assignments, instead I built this from scratch based on an idea and USB toolkit's I have used in the past.  I created them because I needed something like it and I missed the tools I used to have.  Thus, I used the ARC project across all three deliverables as the toolkit could easily match all three core areas.  Together they, my tools follow the path of a single repair, from start to finish.  This is not the finished product, only the first draft.
