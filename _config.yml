@@ -24,9 +24,6 @@ title: Eric's ePortfolio
 description: CS student at SNHU and repair technician. Showcasing ARC, my Advanced Repair Console capstone.
 author: Eric Schooler
 github_username: JabukaMK2
-
-header_pages:
-  - about.md
   
 show_downloads: true
 baseurl: "" # the subpath of your site, e.g. /blog
