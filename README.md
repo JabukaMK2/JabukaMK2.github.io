@@ -1,6 +1,6 @@
 # JabukaMK2.github.io
 
-### Advanced Repair Console (ARC-PE)
+### Advanced Repair Companion (ARC-PE)
 
 The ARC application is a unique tool designed to bridge the gap between knowledge and execution.  Often, technicians 
 
